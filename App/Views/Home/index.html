@@ -1,9 +1,22 @@
 {% extends "base.html" %}
 
-{% block title %}Home{% endblock %}
+{% block title %}PersonalBudget.com{% endblock %}
 
 {% block body %}
-
-    <h1>Welcome</h1>
-
+    <main>
+        <section id="content-description">
+            <div class="container-fluid content-padding">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h1 class="big-heading">Zrób pierwszy krok ku oszczędzaniu i zacznij spełniać swoje marzenia</h1>
+                        <a href="register.html" class="btn btn-warning btn-lg user-button">Zarajestruj się <i class="fa-solid fa-user-plus"></i></a>
+                        <a href="login.html" class="btn btn-success btn-lg user-button">Zaloguj się <i class="fa-solid fa-right-to-bracket"></i></a>
+                    </div>
+                    <div class="col-lg-6">
+                        <img class="title-image" src="img/earn_money.jpg">
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 {% endblock %}
