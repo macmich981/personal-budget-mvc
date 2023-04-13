@@ -43,7 +43,7 @@ class User extends \Core\Model {
             $this->errors[] = 'Niepoprawny adres email';
         }
 
-        if ($this->emailExists($this->email)) {
+        if (static::emailExists($this->email)) {
             $this->errors[] = 'Adres email jest już zajęty';
         }
 
@@ -64,7 +64,7 @@ class User extends \Core\Model {
         }
     }
 
-    protected function emailExists($email) {
+    public static function emailExists($email) {
         $sql = 'SELECT * FROM users WHERE email = :email';
 
         $db = static::getDB();
