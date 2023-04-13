@@ -11,42 +11,48 @@
                     <div class="col-lg-4 bg-white m-auto rounded-top wrapper">
                         <h2 class="pt-3">Zarejestruj się teraz</h2>
                         <p class="text-muted lead">Zupełnie za darmo i w minutę</p>
-                        <form action="#">
+
+                        <form method="post" action="/signup/create">
                             <div class="input-group mb-3">
                                 <span class="input-group-text">
                                     <i class="fa fa-user"></i>
                                 </span>
-                                <input type="text" class="form-control" placeholder="Imię" required>
+                                <input type="text" class="form-control" placeholder="Imię" id="inputName" name="username" autofocus required>
                             </div>
+
                             <div class="input-group mb-3">
                                 <span class="input-group-text">
                                     <i class="fa fa-envelope"></i>
                                 </span>
-                                <input type="email" class="form-control" placeholder="Email" required>
+                                <input type="email" class="form-control" placeholder="Email" id="inputEmail" name="email" required>
                             </div>
+
                             <div class="input-group mb-3">
                                 <span class="input-group-text">
                                     <i class="fa fa-lock"></i>
                                 </span>
-                                <input type="password" class="form-control" placeholder="Hasło" required>
+                                <input type="password" class="form-control" placeholder="Hasło" id="inputPassword" name="password" required>
                             </div>
+
                             <div class="input-group mb-3">
                                 <span class="input-group-text">
                                     <i class="fa fa-lock"></i>
                                 </span>
-                                <input type="password" class="form-control" placeholder="Powtórz hasło" required>
+                                <input type="password" class="form-control" placeholder="Powtórz hasło" id="inputPasswordConfirmation" name="password_confirmation" required>
                             </div>
+
                             <div class="d-grid">
-                                <button type="button" class="btn btn-success mb-3">Zarejestruj się teraz</button>
+                                <button type="submit" class="btn btn-success mb-3">Zarejestruj się teraz</button>
                             </div>
                             <p>
                                 Masz już konto? <a href="login.html" class="link-success text-decoration-none">Zaloguj się tutaj</a>
                             </p>
                         </form>
+
                     </div>
                 </div>
             </div>
         </section>
     </main>
-    
+
 {% endblock %}
