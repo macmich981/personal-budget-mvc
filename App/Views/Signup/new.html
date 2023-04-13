@@ -3,41 +3,8 @@
 {% block title %}PersonalBudget.com{% endblock %}
 
 {% block footer %}
-    <script src="/js/hideShowPassword.min.js"></script>
+
     <script src="/js/app.js"></script>
-
-    <script>
-        $(document).ready(function() {
-            $('#formSignup').validate({
-                rules: {
-                    name: 'required',
-                    email: {
-                        required: true,
-                        email: true,
-                        remote: '/account/validate-email'
-                    },
-                    password: {
-                        required: true,
-                        minlength: 6,
-                        validPassword: true
-                    },
-                    password_confirmation: {
-                        equalTo: '#inputPassword'
-                    }
-                },
-                messages: {
-                    email: {
-                        remote: 'Adres email jest już zajęty'
-                    }
-                }
-            });
-
-            $('#inputPassword').hideShowPassword({
-                show: false,
-                innerToggle: 'focus'
-            });
-        });
-    </script>
 
 {% endblock %}
 
@@ -62,12 +29,16 @@
 
                         <form method="post" action="/signup/create" id="formSignup">
 
+                            <div class="nameErr"></div>
+
                             <div class="input-group mb-3">
                                 <span class="input-group-text">
                                     <i class="fa fa-user"></i>
                                 </span>
                                 <input type="text" class="form-control" placeholder="Imię" id="inputName" name="username" autofocus value="{{ user.username }}" required >
                             </div>
+
+                            <div class="emailErr"></div>
 
                             <div class="input-group mb-3">
                                 <span class="input-group-text">
@@ -76,12 +47,16 @@
                                 <input type="email" class="form-control" placeholder="Email" id="inputEmail" name="email" value="{{ user.email }}" required >
                             </div>
 
+                            <div class="passErr"></div>
+
                             <div class="input-group mb-3">
                                 <span class="input-group-text">
                                     <i class="fa fa-lock"></i>
                                 </span>
                                 <input type="password" class="form-control" placeholder="Hasło" id="inputPassword" name="password" required >
                             </div>
+
+                            <div class="confirmErr"></div>
 
                             <div class="input-group mb-3">
                                 <span class="input-group-text">
