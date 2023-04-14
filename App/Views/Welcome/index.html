@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}PersonalBudget.com - Witaj{% endblock %}
+
+{% block body %}
+
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg navbar-dark">
+    
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+    
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                <ul class="navbar-nav m-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="home.html"><i class="fa-solid fa-house-user"></i> Strona główna</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fa-solid fa-coins"></i> Dodaj przychód</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="expense.html"><i class="fa-solid fa-cart-shopping"></i> Dodaj wydatek</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="balance.html"><i class="fa-solid fa-scale-unbalanced"></i> Przeglądaj bilans</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fa-solid fa-gear"></i> Ustawienia</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login/destroy"><i class="fa-solid fa-right-from-bracket"></i> Wyloguj się</a>
+                    </li>
+                </ul>
+            </div>
+            
+        </nav>
+
+        <main>
+            <section id="content">
+                <div class="row p-5 content-background">
+                    {% if current_user %}
+                        <h1>Witaj, {{ current_user.username }}</h1>
+                    {% endif %}
+                    <h3>Co chcesz teraz zrobić?</h3>
+                </div>
+            </section>
+        </main>
+    </div>
+
+{% endblock %}
