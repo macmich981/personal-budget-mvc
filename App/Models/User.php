@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use PDO;
+use App\Token;
+use App\Mail;
+use \Core\View;
 
 #[\AllowDynamicProperties]
 class User extends \Core\Model {
@@ -104,4 +107,51 @@ class User extends \Core\Model {
         return $stmt->fetch();
     }
     
+    public static function sendPasswordReset($email) {
+        $user = static::findByEmail($email);
+
+        if ($user) {
+            if ($user->startPasswordReset()) {
+                $user->sendPasswordResetEmail();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    protected function startPasswordReset() {
+        $token = new Token();
+        $hashed_token = $token->getHash();
+        $expiry_timestamp = time() + 60 * 60 * 2;
+        $this->password_reset_token = $token->getValue();
+
+        $sql = 'UPDATE users
+                SET password_reset_hash = :token_hash,
+                    password_reset_expires_at = :expires_at
+                WHERE id = :id';
+            
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':token_hash', $hashed_token, PDO::PARAM_STR);
+        $stmt->bindValue(':expires_at', date('Y-m-d H:i:s', $expiry_timestamp), PDO::PARAM_STR);       
+        $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+
+    protected function sendPasswordResetEmail() {
+        if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
+            $protocol = 'https';
+        } else {
+            $protocol = 'http';
+        }
+
+        $url = $protocol . '://' . $_SERVER['HTTP_HOST'] . '/password/reset/' . $this->password_reset_token;
+        $text = View::getTemplate('Password/reset_email.txt', ['url' => $url]);
+        $html = View::getTemplate('Password/reset_email.html', ['url' => $url]);
+
+        Mail::send($this->email, 'Password reset', $text, $html);
+    }
+
 }

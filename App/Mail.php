@@ -33,9 +33,9 @@ class Mail {
             $mail->AltBody = $text;
 
             $mail->send();
-            Flash::addmessage('Wiadomość została wysłana', FLASH::INFO);
+            Flash::addMessage('Wiadomość została wysłana', FLASH::INFO);
         } catch (Exception $e) {
-            Flash::addmessage("Wiadomość nie mogła zostać wysłana. Błąd: {$mail->ErrorInfo}", FLASH::WARNING);
+            Flash::addMessage("Wiadomość nie mogła zostać wysłana. Błąd: {$mail->ErrorInfo}", FLASH::WARNING);
         }
     }
 }

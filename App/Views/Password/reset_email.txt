@@ -1,0 +1,5 @@
+Zmiana hasła - PersonalBudget.com
+
+Proszę kliknąć w poniższy link, aby zresetować hasło:
+
+{{ url }}

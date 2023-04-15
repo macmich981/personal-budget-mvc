@@ -20,7 +20,7 @@ class Login extends \Core\Controller {
             Auth::login($user);
             $this->redirect(Auth::getReturnToPage());
         } else {
-            Flash::addMessage('Logowanie zakończone niepowodzniem. Proszę spróbować ponownie', FLASH::WARNING);
+            Flash::addMessage('Logowanie zakończone niepowodzeniem. Proszę spróbować ponownie', FLASH::WARNING);
             View::renderTemplate('Login/new.html', [
                 'email' => $_POST['email']
             ]);
