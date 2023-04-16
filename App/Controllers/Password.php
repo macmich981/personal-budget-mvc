@@ -27,4 +27,40 @@ class Password extends \Core\Controller {
         View::renderTemplate('Password/forgot.html');
     }
 
+    public function resetAction() {
+        $token = $this->route_params['token'];
+        $user = $this->getUserOrExit($token);
+        
+        View::renderTemplate('Password/reset.html', [
+            'token' => $token
+        ]);
+    }
+
+    public function resetPasswordAction() {
+        $token = $_POST['token'];
+        $user = $this->getUserOrExit($token);
+        
+        if ($user->resetPassword($_POST['password'], $_POST['password_confirmation'])) {
+            Flash::addMessage('Zmiana hasła przeprowadzona pomyślnie');
+            View::renderTemplate('Login/new.html');
+        } else {
+            View::renderTemplate('Password/reset.html', [
+                'token' => $token,
+                'user' => $user
+            ]);
+        }
+    }
+
+    protected function getUserOrExit($token) {
+        $user = User::findByPasswordReset($token);
+
+        if ($user) {
+            return $user;
+        } else {
+            Flash::addMessage('Niepoprawny link lub termin ważności zmiany hasła wygasł. Spróbuj ponownie', FLASH::WARNING);
+            View::renderTemplate('Password/forgot.html');
+            exit;
+        }
+    }
+
 }

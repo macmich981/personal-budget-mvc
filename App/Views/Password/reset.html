@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}PersonalBudget.com - Zmiana hasła{% endblock %}
+
+{% block footer %}
+
+    <script src="/js/app.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#formPassword').validate({
+                errorPlacement: function(error, element) {
+                    if (element.attr("name") == "password") {
+                        error.insertBefore(".passErr");
+                        error.css('color', 'red');
+                    }
+                    else if (element.attr("name") == "password_confirmation") {
+                        error.insertBefore(".confirmErr");
+                        error.css('color', 'red');
+                    }
+                },
+                rules: {
+                    password: {
+                        required: true,
+                        minlength: 6,
+                        validPassword: true
+                    },
+                    password_confirmation: {
+                        equalTo: '#inputPassword'
+                    }
+                }
+            });
+        });
+    </script>
+
+{% endblock %}
+
+{% block body %}
+
+    <main>
+        <section id="login-form">
+            <div class="container">
+                <div class="row mt-5">
+                    <div class="col-lg-4 bg-white m-auto rounded-top wrapper">
+                        <h2 class="pt-3 mb-3">Zmiana hasła</h2>
+
+                        {% if user.errors is not empty %}
+                            <p>Błędy:</p>
+                                <ul>
+                                    {% for error in user.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                        {% endif %}
+
+                        <form method="post" action="/password/reset-password" id="formPassword">
+
+                            <input type="hidden" name="token" value="{{ token }}" >
+
+                            <div class="passErr"></div>
+
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">
+                                    <i class="fa fa-lock"></i>
+                                </span>
+                                <input type="password" class="form-control" placeholder="Hasło" id="inputPassword" name="password" autofocus required >
+                            </div>
+
+                            <div class="confirmErr"></div>
+
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">
+                                    <i class="fa fa-lock"></i>
+                                </span>
+                                <input type="password" class="form-control" placeholder="Powtórz hasło" id="inputPasswordConfirmation" name="password_confirmation" required >
+                            </div>
+
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-success mb-3">Zapisz</button>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+{% endblock %}
