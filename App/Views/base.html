@@ -22,7 +22,7 @@
     </header>
 
     {% for message in flash_messages %}
-        <div class="alert alert-{{ message.type }}">
+        <div class="alert alert-{{ message.type }}" role="alert">
             {{ message.body }}
         </div>
     {% endfor %}
