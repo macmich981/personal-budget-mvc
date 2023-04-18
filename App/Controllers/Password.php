@@ -18,12 +18,12 @@ class Password extends \Core\Controller {
         } else {
             $message = 'Wystąpił błąd lub nie można znaleźć konta z takim adresem email';
         }
-        $this->redirect('/password/show-password-message?message=' . $message);
+        $_SESSION['reset_password_message'] = $message;
+        $this->redirect('/password/show-password-message');
     }
 
     public function showPasswordMessage() {
-        $message = $_GET['message'];
-        Flash::addMessage($message, FLASH::INFO);
+        Flash::addMessage($_SESSION['reset_password_message'], FLASH::INFO);
         View::renderTemplate('Password/forgot.html');
     }
 
