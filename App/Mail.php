@@ -34,8 +34,10 @@ class Mail {
 
             $mail->send();
             Flash::addMessage('Wiadomość została wysłana', FLASH::INFO);
+            return true;
         } catch (Exception $e) {
             Flash::addMessage("Wiadomość nie mogła zostać wysłana. Błąd: {$mail->ErrorInfo}", FLASH::WARNING);
+            return false;
         }
     }
 }

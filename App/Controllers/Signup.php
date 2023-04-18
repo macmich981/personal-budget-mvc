@@ -16,7 +16,6 @@ class Signup extends \Core\Controller {
         $user = new User($_POST);
         
         if ($user->save()) {
-            $user->sendActivationEmail();
             FLASH::addMessage('Rejestracja zakończona sukcesem. Proszę sprawdzić skrzynkę email, aby aktywować konto');
             $this->redirect('/login/new');
         } else {

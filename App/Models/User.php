@@ -26,18 +26,20 @@ class User extends \Core\Model {
             $hashed_token = $token->getHash();
             $this->activation_token = $token->getValue();
 
-            $sql = 'INSERT INTO users (username, email, password, activation_hash)
-                    VALUES (:username, :email, :password, :activation_hash)';
-            
-            $db = static::getDB();
-            $stmt = $db->prepare($sql);
+            if ($this->sendActivationEmail()) {
+                $sql = 'INSERT INTO users (username, email, password, activation_hash)
+                        VALUES (:username, :email, :password, :activation_hash)';
+                
+                $db = static::getDB();
+                $stmt = $db->prepare($sql);
 
-            $stmt->bindValue(':username', $this->username, PDO::PARAM_STR);
-            $stmt->bindValue(':email', $this->email, PDO::PARAM_STR);
-            $stmt->bindValue(':password', $password, PDO::PARAM_STR);
-            $stmt->bindValue(':activation_hash', $hashed_token, PDO::PARAM_STR);
+                $stmt->bindValue(':username', $this->username, PDO::PARAM_STR);
+                $stmt->bindValue(':email', $this->email, PDO::PARAM_STR);
+                $stmt->bindValue(':password', $password, PDO::PARAM_STR);
+                $stmt->bindValue(':activation_hash', $hashed_token, PDO::PARAM_STR);
 
-            return $stmt->execute();
+                return $stmt->execute();
+            }
         }
         return false;
     }
@@ -123,8 +125,7 @@ class User extends \Core\Model {
         $user = static::findByEmail($email);
 
         if ($user) {
-            if ($user->startPasswordReset()) {
-                $user->sendPasswordResetEmail();
+            if ($user->startPasswordReset() && $user->sendPasswordResetEmail()) {
                 return true;
             }
         }
@@ -163,7 +164,7 @@ class User extends \Core\Model {
         $text = View::getTemplate('Password/reset_email.txt', ['url' => $url]);
         $html = View::getTemplate('Password/reset_email.html', ['url' => $url]);
 
-        Mail::send($this->email, 'Zmiana hasła', $text, $html);
+        return Mail::send($this->email, 'Zmiana hasła', $text, $html);
     }
 
     public static function findByPasswordReset($token) {
@@ -223,7 +224,7 @@ class User extends \Core\Model {
         $text = View::getTemplate('Signup/activation_email.txt', ['url' => $url]);
         $html = View::getTemplate('Signup/activation_email.html', ['url' => $url]);
 
-        Mail::send($this->email, 'Aktywacja konta', $text, $html);
+        return Mail::send($this->email, 'Aktywacja konta', $text, $html);
     }
 
     public static function activate($value) {

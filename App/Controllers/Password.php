@@ -16,7 +16,7 @@ class Password extends \Core\Controller {
         if (User::sendPasswordReset($_POST['email'])) {
             $message = 'W przesłanej wiadomości kliknij w link, aby zmienić hasło';
         } else {
-            $message = 'Nie można znaleźć konta z takim adresem email';
+            $message = 'Wystąpił błąd lub nie można znaleźć konta z takim adresem email';
         }
         $this->redirect('/password/show-password-message?message=' . $message);
     }
