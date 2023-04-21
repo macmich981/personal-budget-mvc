@@ -1,0 +1,86 @@
+{% extends "base_with_nav.html" %}
+
+{% block title %}PersonalBudget.com - Dodaj wydatek{% endblock %}
+
+{% block body %}
+
+    <main>
+        <section id="add-expense">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-3 m-auto content-background">
+                        <h2 class="pt-3 mb-3">Dodawanie wydatku</h2>
+                        <form action="#">
+
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">
+                                    <i class="fa-solid fa-pen"></i>
+                                </span>
+                                <input type="number" step="0.01" class="form-control" min="0.01" placeholder="Wpisz kwotę...">
+                            </div>
+
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">
+                                    <i class="fa-solid fa-calendar"></i>
+                                </span>
+                                <input type="text" id="date" class="date form-control" value="{{ date }}">
+                            </div>
+
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">
+                                    <i class="fa-solid fa-money-check-dollar"></i>
+                                </span>
+                                <select class="form-select">
+                                    <option disabled selected>Wybierz sposób płatności...</option>
+                                    <option>Gotówka</option>
+                                    <option>Karta debetowa</option>
+                                    <option>Karta kredytowa</option>
+                                </select>
+                            </div>
+
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">
+                                    <i class="fa-brands fa-shopify"></i>
+                                </span>
+                                <select class="form-select">
+                                    <option disabled selected>Wybierz rodzaj wydatku...</option>
+                                    <option>Jedzenie</option>
+                                    <option>Mieszkanie</option>
+                                    <option>Transport</option>
+                                    <option>Telekomunikacja</option>
+                                    <option>Opieka zdrowotna</option>
+                                    <option>Ubranie</option>
+                                    <option>Higiena</option>
+                                    <option>Dzieci</option>
+                                    <option>Rozrywka</option>
+                                    <option>Wycieczka</option>
+                                    <option>Szkolenia</option>
+                                    <option>Książki</option>
+                                    <option>Oszczędności</option>
+                                    <option>Na złotą jesień, czyli emeryturę</option>
+                                    <option>Spłata długów</option>
+                                    <option>Darowizna</option>
+                                    <option>Inne wydatki</option>
+                                </select>
+                            </div>
+
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">
+                                    <i class="fa-solid fa-pen"></i>
+                                </span>
+                                <input type="text" class="form-control" placeholder="Komentarz...">
+                            </div>
+
+                            <div class="d-grid">
+                                <button type="button" class="btn btn-success mb-3">Dodaj</button>
+                                <button type="button" class="btn btn-danger mb-3">Anuluj</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+{% endblock %}
