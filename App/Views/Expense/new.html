@@ -10,27 +10,37 @@
                 <div class="row">
                     <div class="col-lg-3 m-auto content-background">
                         <h2 class="pt-3 mb-3">Dodawanie wydatku</h2>
-                        <form action="#">
+
+                        {% if expense.errors is not empty %}
+                            <p>Błędy:</p>
+                                <ul>
+                                    {% for error in expense.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                        {% endif %}
+
+                        <form method="post" action="/expense/create">
 
                             <div class="input-group mb-3">
                                 <span class="input-group-text">
                                     <i class="fa-solid fa-pen"></i>
                                 </span>
-                                <input type="number" step="0.01" class="form-control" min="0.01" placeholder="Wpisz kwotę...">
+                                <input type="text" name="amount" id="inputExpense" step="0.01" class="form-control" min="0.01" placeholder="Wpisz kwotę...">
                             </div>
 
                             <div class="input-group mb-3">
                                 <span class="input-group-text">
                                     <i class="fa-solid fa-calendar"></i>
                                 </span>
-                                <input type="text" id="date" class="date form-control" value="{{ date }}">
+                                <input type="text" name="date" id="date" class="date form-control" value="{{ date }}">
                             </div>
 
                             <div class="input-group mb-3">
                                 <span class="input-group-text">
                                     <i class="fa-solid fa-money-check-dollar"></i>
                                 </span>
-                                <select class="form-select">
+                                <select class="form-select" name="payment">
                                     <option disabled selected>Wybierz sposób płatności...</option>
                                     <option>Gotówka</option>
                                     <option>Karta debetowa</option>
@@ -38,13 +48,15 @@
                                 </select>
                             </div>
 
+                            <input type="hidden" name="category" value="">
+                            
                             <div class="input-group mb-3">
                                 <span class="input-group-text">
                                     <i class="fa-brands fa-shopify"></i>
                                 </span>
-                                <select class="form-select">
+                                <select class="form-select" name="category">
                                     <option disabled selected>Wybierz rodzaj wydatku...</option>
-                                    <option>Jedzenie</option>
+                                    <option value="food">Jedzenie</option>
                                     <option>Mieszkanie</option>
                                     <option>Transport</option>
                                     <option>Telekomunikacja</option>
@@ -72,7 +84,7 @@
                             </div>
 
                             <div class="d-grid">
-                                <button type="button" class="btn btn-success mb-3">Dodaj</button>
+                                <button type="submit" class="btn btn-success mb-3">Dodaj</button>
                                 <button type="button" class="btn btn-danger mb-3">Anuluj</button>
                             </div>
 
