@@ -36,15 +36,19 @@
                                 <input type="text" name="date" id="date" class="date form-control" value="{{ date }}">
                             </div>
 
+                            <input type="hidden" name="payment" value="">
+
                             <div class="input-group mb-3">
                                 <span class="input-group-text">
                                     <i class="fa-solid fa-money-check-dollar"></i>
                                 </span>
                                 <select class="form-select" name="payment">
                                     <option disabled selected>Wybierz sposób płatności...</option>
-                                    <option>Gotówka</option>
-                                    <option>Karta debetowa</option>
-                                    <option>Karta kredytowa</option>
+                                    {% for method in paymentMethods %}
+                                        {% for value in method %}
+                                            <option value="{{ value }}">{{ value }}</option>
+                                        {% endfor %}
+                                    {% endfor %}
                                 </select>
                             </div>
 

@@ -45,9 +45,51 @@ class ExpenseModel extends \Core\Model {
             }
         }
 
-        if (!static::categoryExists($this->category)) {
-            $this->errors[] = 'Należy wybrać kategorię wydatków';
+        if (!static::paymentMethodExists($this->payment)) {
+            $this->errors[] = "Należy wybrać istniejący sposób płatności";
         }
+
+        if (!static::categoryExists($this->category)) {
+            $this->errors[] = 'Należy wybrać istniejącą kategorię wydatków';
+        }
+    }
+
+    public static function paymentMethodExists($method) {
+        $result = static::findpaymentMethod($method);
+
+        if ($result) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function findPaymentMethod($method) {
+        $sql = 'SELECT name FROM payment_methods_default 
+                WHERE name = :method
+                UNION
+                SELECT name FROM payment_methods_assigned_to_users
+                WHERE name = :method';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':method', $category, PDO::PARAM_STR);
+        $stmt->execute();
+
+        return $stmt->fetch();
+    }
+
+    public static function getPaymentMethods() {
+        $sql = 'SELECT name FROM payment_methods_default
+                UNION
+                SELECT name FROM payment_methods_assigned_to_users
+                WHERE user_id = :user_id';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public static function categoryExists($category) {
