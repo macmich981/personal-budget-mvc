@@ -9,8 +9,11 @@ use App\Models\ExpenseModel;
 class Expense extends Authenticated {
 
     public function newAction() {
+        $categories = ExpenseModel::getExpenseCategories();
+
         View::renderTemplate('Expense/new.html', [
-            'date' => Date::getCurrentDate()
+            'date' => Date::getCurrentDate(),
+            'categories' => $categories
         ]);
     }
 
@@ -20,7 +23,8 @@ class Expense extends Authenticated {
         $expense->save();
         View::renderTemplate('Expense/new.html', [
             'expense' => $expense,
-            'date' => Date::getCurrentDate()
+            'date' => Date::getCurrentDate(),
+            'categories' => ExpenseModel::getExpenseCategories()
         ]);
     }
 

@@ -15,7 +15,6 @@ class ExpenseModel extends \Core\Model {
 
     public function save() {
         $this->validate();
-
     }
 
     public function validate() {
@@ -75,4 +74,13 @@ class ExpenseModel extends \Core\Model {
         return $stmt->fetch();
     }
 
+    public static function getExpenseCategories() {
+        $sql = 'SELECT name FROM expenses_category_default';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

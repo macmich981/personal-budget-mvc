@@ -56,23 +56,11 @@
                                 </span>
                                 <select class="form-select" name="category">
                                     <option disabled selected>Wybierz rodzaj wydatku...</option>
-                                    <option value="food">Jedzenie</option>
-                                    <option>Mieszkanie</option>
-                                    <option>Transport</option>
-                                    <option>Telekomunikacja</option>
-                                    <option>Opieka zdrowotna</option>
-                                    <option>Ubranie</option>
-                                    <option>Higiena</option>
-                                    <option>Dzieci</option>
-                                    <option>Rozrywka</option>
-                                    <option>Wycieczka</option>
-                                    <option>Szkolenia</option>
-                                    <option>Książki</option>
-                                    <option>Oszczędności</option>
-                                    <option>Na złotą jesień, czyli emeryturę</option>
-                                    <option>Spłata długów</option>
-                                    <option>Darowizna</option>
-                                    <option>Inne wydatki</option>
+                                    {% for category in categories %}
+                                        {% for value in category %}
+                                            <option value="{{ value }}">{{ value }}</option>
+                                        {% endfor %}
+                                    {% endfor %}
                                 </select>
                             </div>
 
