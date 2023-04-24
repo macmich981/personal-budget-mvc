@@ -34,7 +34,7 @@ class ExpenseModel extends \Core\Model {
             $date = date_create_from_format('Y-m-d', $this->date);
 
             if ($date === false) {
-                $this->errors[] = 'Niepoprawny format daty';
+                $this->errors[] = 'Datę należy wpisać w formacie RRRR-MM-DD';
             } else {
                 $date_errors = date_get_last_errors();
                 $start_date = new \DateTime('2000-01-01');
@@ -55,7 +55,7 @@ class ExpenseModel extends \Core\Model {
     }
 
     public static function paymentMethodExists($method) {
-        $result = static::findpaymentMethod($method);
+        $result = static::findPaymentMethod($method);
 
         if ($result) {
             return true;
@@ -72,7 +72,7 @@ class ExpenseModel extends \Core\Model {
 
         $db = static::getDB();
         $stmt = $db->prepare($sql);
-        $stmt->bindParam(':method', $category, PDO::PARAM_STR);
+        $stmt->bindParam(':method', $method, PDO::PARAM_STR);
         $stmt->execute();
 
         return $stmt->fetch();
