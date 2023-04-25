@@ -36,3 +36,29 @@
     </div>
 
 {% endblock %}
+
+{% block footer %}
+
+    <script type="text/javascript">
+        $.fn.datepicker.dates['pl'] = {
+            days: ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"],
+            daysShort: ["Nd", "Pon", "Wt", "Śr", "Czw", "Pt", "Sob"],
+            daysMin: ["Nd", "Pon", "Wt", "Śr", "Czw", "Pt", "Sob"],
+            months: ["Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec", "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"],
+            monthsShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+            today: "Today",
+            clear: "Clear",
+            format: "mm/dd/yyyy",
+            titleFormat: "MM yyyy", /* Leverages same syntax as 'format' */
+            weekStart: 0
+        };
+
+        $(".date").datepicker({
+            format: 'yyyy-mm-dd',
+            startDate: '2000-01-01',
+            endDate: new Date(),
+            language: 'pl'
+        });
+    </script>
+
+{% endblock %}

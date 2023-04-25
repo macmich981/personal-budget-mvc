@@ -68,11 +68,12 @@ class ExpenseModel extends \Core\Model {
                 WHERE name = :method
                 UNION
                 SELECT name FROM payment_methods_assigned_to_users
-                WHERE name = :method';
+                WHERE name = :method AND user_id = :user_id';
 
         $db = static::getDB();
         $stmt = $db->prepare($sql);
         $stmt->bindParam(':method', $method, PDO::PARAM_STR);
+        $stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
         $stmt->execute();
 
         return $stmt->fetch();
@@ -106,11 +107,12 @@ class ExpenseModel extends \Core\Model {
                 WHERE name = :category
                 UNION
                 SELECT name FROM expenses_category_assigned_to_users
-                WHERE name = :category';
+                WHERE name = :category AND user_id = :user_id';
 
         $db = static::getDB();
         $stmt = $db->prepare($sql);
         $stmt->bindParam(':category', $category, PDO::PARAM_STR);
+        $stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
         $stmt->execute();
 
         return $stmt->fetch();
