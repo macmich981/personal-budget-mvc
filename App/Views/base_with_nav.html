@@ -46,15 +46,14 @@
             daysMin: ["Nd", "Pon", "Wt", "Śr", "Czw", "Pt", "Sob"],
             months: ["Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec", "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"],
             monthsShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-            today: "Today",
+            today: "Dziś",
             clear: "Clear",
-            format: "mm/dd/yyyy",
-            titleFormat: "MM yyyy", /* Leverages same syntax as 'format' */
-            weekStart: 0
+            format: "yyyy-mm-dd"
+            //titleFormat: "MM yyyy",
+            //weekStart: 0
         };
 
         $(".date").datepicker({
-            format: 'yyyy-mm-dd',
             startDate: '2000-01-01',
             endDate: new Date(),
             language: 'pl'

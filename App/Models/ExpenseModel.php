@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use PDO;
+use App\Date;
 
 #[\AllowDynamicProperties]
 class ExpenseModel extends \Core\Model {
@@ -25,6 +26,10 @@ class ExpenseModel extends \Core\Model {
 
             if (!is_numeric($this->amount)) {
                 $this->errors[] = 'Kwota musi być liczbą';
+            } else {
+                if ($this->amount < 0) {
+                    $this->errors[] = 'Kwota musi być większa od 0';
+                }
             }
         }
 
@@ -38,9 +43,14 @@ class ExpenseModel extends \Core\Model {
             } else {
                 $date_errors = date_get_last_errors();
                 $start_date = new \DateTime('2000-01-01');
+                $end_date = date_create_from_format('Y-m-d', Date::getCurrentDate());
 
-                if (!empty($date_errors) || $date < $start_date) {
-                    $this->errors[] = 'Niepoprawna data lub data przed 2000-01-01';
+                if (!empty($date_errors)) {
+                    $this->errors[] = 'Niepoprawna data';
+                } else if ($date < $start_date) {
+                    $this->errors[] = 'Data przed 2000-01-01';
+                } else if ($date > $end_date) {
+                    $this->errors[] = 'Data po aktualnym dniu';
                 }
             }
         }
@@ -115,7 +125,7 @@ class ExpenseModel extends \Core\Model {
         $stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
         $stmt->execute();
 
-        return $stmt->fetch();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public static function getExpenseCategories() {
