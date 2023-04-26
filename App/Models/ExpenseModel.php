@@ -64,8 +64,12 @@ class ExpenseModel extends \Core\Model {
         }
     }
 
-    public static function paymentMethodExists($method) {
-        $result = static::findPaymentMethod($method);
+    public static function paymentMethodExists($method, $assigned_to_user = false) {
+        if ($assigned_to_user) {
+            $result = static::findPaymentMethodAssignedToUser($method);
+        } else {
+            $result = static::findPaymentMethod($method);
+        }
 
         if ($result) {
             return true;
@@ -78,6 +82,19 @@ class ExpenseModel extends \Core\Model {
                 WHERE name = :method
                 UNION
                 SELECT name FROM payment_methods_assigned_to_users
+                WHERE name = :method AND user_id = :user_id';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':method', $method, PDO::PARAM_STR);
+        $stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetch();
+    }
+
+    public static function findPaymentMethodAssignedToUser($method) {
+        $sql = 'SELECT name FROM payment_methods_assigned_to_users
                 WHERE name = :method AND user_id = :user_id';
 
         $db = static::getDB();
@@ -103,8 +120,13 @@ class ExpenseModel extends \Core\Model {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function categoryExists($category) {
-        $result = static::findCategory($category);
+    public static function categoryExists($category, $assigned_to_user = false) {
+        if ($assigned_to_user) {
+            $result = static::findCategoryAssignedToUser($category);
+        } else {
+            $result = static::findCategory($category);
+        }
+        
 
         if ($result) {
             return true;
@@ -126,6 +148,19 @@ class ExpenseModel extends \Core\Model {
         $stmt->execute();
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public static function findCategoryAssignedToUser($category) {
+        $sql = 'SELECT name FROM expenses_category_assigned_to_users
+                WHERE name = :category AND user_id = :user_id';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':category', $category, PDO::PARAM_STR);
+        $stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);        
     }
 
     public static function getExpenseCategories() {
