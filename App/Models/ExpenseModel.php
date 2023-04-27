@@ -117,7 +117,7 @@ class ExpenseModel extends \Core\Model {
     }
 
     public static function findPaymentMethodAssignedToUser($method) {
-        $sql = 'SELECT name FROM payment_methods_assigned_to_users
+        $sql = 'SELECT id, name FROM payment_methods_assigned_to_users
                 WHERE name = :method AND user_id = :user_id';
 
         $db = static::getDB();
@@ -126,7 +126,7 @@ class ExpenseModel extends \Core\Model {
         $stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
         $stmt->execute();
 
-        return $stmt->fetch();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public static function getPaymentMethods() {
