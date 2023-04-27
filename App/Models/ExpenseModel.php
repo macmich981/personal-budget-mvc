@@ -16,6 +16,29 @@ class ExpenseModel extends \Core\Model {
 
     public function save() {
         $this->validate();
+
+        if (empty($this->errors)) {
+            $paymentMethodId = null;
+            $paymentMethodAssignedToUser = static::findPaymentMethodAssignedToUser($this->payment);
+            $db = static::getDB();
+
+            if (!$paymentMethodAssignedToUser) {
+                $sql = 'INSERT INTO payment_methods_assigned_to_users (user_id, name)
+                        VALUES (:user_id, :name)';
+                
+                $stmt = $db->prepare($sql);
+                $stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+                $stmt->bindValue(':name', $this->payment, PDO::PARAM_STR);
+
+                if (!$stmt->execute()) {
+                    return false;
+                }
+
+                $paymentMethodId = $db->lastInsertId();
+            } else {
+                $paymentMethodId = $paymentMethodAssignedToUser['id'];
+            }
+        }
     }
 
     public function validate() {
