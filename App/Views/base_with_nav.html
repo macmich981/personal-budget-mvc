@@ -39,6 +39,8 @@
 
 {% block footer %}
 
+    <script src="/js/app.js"></script>
+
     <script type="text/javascript">
         $.fn.datepicker.dates['pl'] = {
             days: ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"],
@@ -58,6 +60,63 @@
             endDate: new Date(),
             language: 'pl'
         });
+
+        $(document).ready(function() {
+            $('#formAddExpense').validate({
+                    /*errorPlacement: function(error, element) {
+                    if (element.attr("name") == "username") {
+                        error.insertAfter(".nameErr");
+                        error.css('color', 'red');
+                    }
+                    else if (element.attr("name") == "email") {
+                        error.insertBefore(".emailErr");
+                        error.css('color', 'red');
+                    }
+                    else if (element.attr("name") == "password") {
+                        error.insertBefore(".passErr");
+                        error.css('color', 'red');
+                    }
+                    else if (element.attr("name") == "password_confirmation") {
+                        error.insertBefore(".confirmErr");
+                        error.css('color', 'red');
+                    }
+                },*/
+                rules: {
+                    amount: {
+                        required: true,
+                        validNumber: true
+                    },
+                    email: {
+                        required: true,
+                        email: true,
+                        remote: '/account/validate-email'
+                    },
+                    password: {
+                        required: true,
+                        minlength: 6,
+                        validPassword: true
+                    },
+                    password_confirmation: {
+                        equalTo: '#inputPassword'
+                    }
+                },
+                messages: {
+
+                }
+            });
+        });
+
+        $.validator.addMethod('validNumber',
+            function(value, element, param) {
+                if (value != '') {
+                    if (value.match(/^[0-9]+,[0-9]*$/) == null && value.match(/^[0-9]+.[0-9]*$/) == null) {
+                        return false;
+                    }
+                }
+                return true;
+            },
+            'Proszę wpisać poprawną kwotę'
+        );
     </script>
 
 {% endblock %}

@@ -83,7 +83,7 @@ class ExpenseModel extends \Core\Model {
             if (!is_numeric($this->amount)) {
                 $this->errors[] = 'Kwota musi być liczbą';
             } else {
-                if ($this->amount < 0) {
+                if ($this->amount <= 0) {
                     $this->errors[] = 'Kwota musi być większa od 0';
                 }
             }
