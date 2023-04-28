@@ -20,6 +20,8 @@ class ExpenseModel extends \Core\Model {
         if (empty($this->errors)) {
             $paymentMethodId = null;
             $paymentMethodAssignedToUser = static::findPaymentMethodAssignedToUser($this->payment);
+            $categoryId = null;
+            $categoryAssignedToUser = static::findCategoryAssignedToUser($this->category);
             $db = static::getDB();
 
             if (!$paymentMethodAssignedToUser) {
@@ -38,7 +40,38 @@ class ExpenseModel extends \Core\Model {
             } else {
                 $paymentMethodId = $paymentMethodAssignedToUser['id'];
             }
+
+            if (!$categoryAssignedToUser) {
+                $sql = 'INSERT INTO expenses_category_assigned_to_users (user_id, name)
+                        VALUES (:user_id, :name)';
+
+                $stmt = $db->prepare($sql);
+                $stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+                $stmt->bindValue(':name', $this->category, PDO::PARAM_STR);
+
+                if (!$stmt->execute()) {
+                    return false;
+                }
+
+                $categoryId = $db->lastInsertId();
+            } else {
+                $categoryId = $categoryAssignedToUser['id'];
+            }
+
+            $sql = 'INSERT INTO expenses (user_id, expense_category_assigned_to_user_id, payment_method_assigned_to_user_id, amount, date_of_expense, expense_comment)
+                    VALUES (:user_id, :expense_category_id, :payment_method_id, :amount, :date, :expense_comment)';
+
+            $stmt = $db->prepare($sql);
+            $stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+            $stmt->bindValue(':expense_category_id', $categoryId, PDO::PARAM_INT);
+            $stmt->bindValue(':payment_method_id', $paymentMethodId, PDO::PARAM_INT);
+            $stmt->bindValue(':amount', $this->amount, PDO::PARAM_STR);
+            $stmt->bindValue(':date', $this->date, PDO::PARAM_STR);
+            $stmt->bindValue(':expense_comment', $this->comment, PDO::PARAM_STR);
+
+            return $stmt->execute();
         }
+        return false;
     }
 
     public function validate() {
@@ -87,12 +120,8 @@ class ExpenseModel extends \Core\Model {
         }
     }
 
-    public static function paymentMethodExists($method, $assigned_to_user = false) {
-        if ($assigned_to_user) {
-            $result = static::findPaymentMethodAssignedToUser($method);
-        } else {
-            $result = static::findPaymentMethod($method);
-        }
+    public static function paymentMethodExists($method) {
+        $result = static::findPaymentMethod($method);
 
         if ($result) {
             return true;
@@ -143,13 +172,8 @@ class ExpenseModel extends \Core\Model {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function categoryExists($category, $assigned_to_user = false) {
-        if ($assigned_to_user) {
-            $result = static::findCategoryAssignedToUser($category);
-        } else {
-            $result = static::findCategory($category);
-        }
-        
+    public static function categoryExists($category) {
+        $result = static::findCategory($category);        
 
         if ($result) {
             return true;
@@ -174,7 +198,7 @@ class ExpenseModel extends \Core\Model {
     }
 
     public static function findCategoryAssignedToUser($category) {
-        $sql = 'SELECT name FROM expenses_category_assigned_to_users
+        $sql = 'SELECT id, name FROM expenses_category_assigned_to_users
                 WHERE name = :category AND user_id = :user_id';
 
         $db = static::getDB();
