@@ -118,6 +118,10 @@ class ExpenseModel extends \Core\Model {
         if (!static::categoryExists($this->category)) {
             $this->errors[] = 'Należy wybrać istniejącą kategorię wydatków';
         }
+
+        if (strlen($this->comment) > 100) {
+            $this->errors[] = 'Komentarz nie może być dłuższy niż 100 znaków';
+        }
     }
 
     public static function paymentMethodExists($method) {
