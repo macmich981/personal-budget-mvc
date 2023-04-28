@@ -26,14 +26,18 @@
                                 <span class="input-group-text">
                                     <i class="fa-solid fa-pen"></i>
                                 </span>
-                                <input type="number" name="amount" id="inputExpense" step="0.01" class="form-control" min="0.01" placeholder="Wpisz kwotę...">
+                                <input type="number" name="amount" id="inputExpense" step="0.01" class="form-control" min="0.01" placeholder="Wpisz kwotę..." value="{{ expense.amount }}">
                             </div>
 
                             <div class="input-group mb-3">
                                 <span class="input-group-text">
                                     <i class="fa-solid fa-calendar"></i>
                                 </span>
-                                <input type="text" name="date" id="date" class="date form-control" value="{{ date }}">
+                                {% if expense.date %}
+                                    <input type="text" name="date" id="date" class="date form-control" value="{{ expense.date }}">
+                                {% else %}
+                                    <input type="text" name="date" id="date" class="date form-control" value="{{ date }}">
+                                {% endif %}
                             </div>
 
                             <input type="hidden" name="payment" value="">
@@ -43,7 +47,11 @@
                                     <i class="fa-solid fa-money-check-dollar"></i>
                                 </span>
                                 <select class="form-select" name="payment">
-                                    <option disabled selected>Wybierz sposób płatności...</option>
+                                    {% if expense.payment %}
+                                        <option value="{{ expense.payment }}">{{ expense.payment }}</option>
+                                    {% else %}
+                                        <option disabled selected>Wybierz sposób płatności...</option>
+                                    {% endif %}
                                     {% for method in paymentMethods %}
                                         {% for value in method %}
                                             <option value="{{ value }}">{{ value }}</option>
@@ -59,7 +67,11 @@
                                     <i class="fa-brands fa-shopify"></i>
                                 </span>
                                 <select class="form-select" name="category">
-                                    <option disabled selected>Wybierz rodzaj wydatku...</option>
+                                    {% if expense.category %}
+                                        <option value="{{ expense.category }}">{{ expense.category }}</option>
+                                    {% else %}
+                                        <option disabled selected>Wybierz rodzaj wydatku...</option>
+                                    {% endif %}
                                     {% for category in categories %}
                                         {% for value in category %}
                                             <option value="{{ value }}">{{ value }}</option>
