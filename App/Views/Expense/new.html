@@ -54,7 +54,9 @@
                                     {% endif %}
                                     {% for method in paymentMethods %}
                                         {% for value in method %}
-                                            <option value="{{ value }}">{{ value }}</option>
+                                            {% if value != expense.payment %}
+                                                <option value="{{ value }}">{{ value }}</option>
+                                            {% endif %}
                                         {% endfor %}
                                     {% endfor %}
                                 </select>
@@ -74,7 +76,9 @@
                                     {% endif %}
                                     {% for category in categories %}
                                         {% for value in category %}
-                                            <option value="{{ value }}">{{ value }}</option>
+                                            {% if value != expense.category %}
+                                                <option value="{{ value }}">{{ value }}</option>
+                                            {% endif %}
                                         {% endfor %}
                                     {% endfor %}
                                 </select>

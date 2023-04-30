@@ -84,8 +84,7 @@
                 rules: {
                     amount: {
                         required: true,
-                        validFormatNumber: true,
-                        minNumber: true
+                        number: true
                     },
                     email: {
                         required: true,
@@ -102,36 +101,17 @@
                     }
                 },
                 messages: {
-
+                    amount: {
+                        number: 'Proszę wpisać poprawną kwotę.',
+                        min: 'Proszę wpisać kwotę większą lub równą 0.01'
+                    }
                 }
             });
         });
 
-        $.validator.addMethod('validFormatNumber',
-            function(value, element, param) {
-                if (value != '') {
-                    if (value.match(/^[0-9]*,[0-9]*$/) == null && value.match(/^[0-9]*.[0-9]*$/) == null) {
-                        return false;
-                    }
-                }
-                return true;
-            },
-            'Proszę wpisać poprawną kwotę'
-        );
-
-        $.validator.addMethod('minNumber',
-            function(value, element, param) {
-                if (value != '') {
-                    value = value.replace(',', '.');
-                    var number = parseFloat(value);
-                    if (number <= 0) {
-                        return false;
-                    }
-                }
-                return true;
-            },
-            'Kwota musi być większa od 0'
-        );
+        $.validator.methods.number = function(value, element, param) {
+            return this.optional(element) || /^-?(?:\d+|\d{1,2}(?:\.\d{2})+)?(?:,\d+)?$/.test(value);
+        }
     </script>
 
 {% endblock %}
