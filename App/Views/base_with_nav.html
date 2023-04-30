@@ -63,47 +63,43 @@
 
         $(document).ready(function() {
             $('#formAddExpense').validate({
-                    /*errorPlacement: function(error, element) {
-                    if (element.attr("name") == "username") {
-                        error.insertAfter(".nameErr");
+                    errorPlacement: function(error, element) {
+                    if (element.attr("name") == "amount") {
+                        error.insertAfter(".amountErr");
                         error.css('color', 'red');
                     }
-                    else if (element.attr("name") == "email") {
-                        error.insertBefore(".emailErr");
+                    else if (element.attr("name") == "date") {
+                        error.insertBefore(".dateErr");
                         error.css('color', 'red');
                     }
-                    else if (element.attr("name") == "password") {
-                        error.insertBefore(".passErr");
+                    else if (element.attr("name") == "payment") {
+                        error.insertBefore(".paymentErr");
                         error.css('color', 'red');
                     }
-                    else if (element.attr("name") == "password_confirmation") {
-                        error.insertBefore(".confirmErr");
+                    else if (element.attr("name") == "category") {
+                        error.insertBefore(".categoryErr");
                         error.css('color', 'red');
                     }
-                },*/
+                },
                 rules: {
                     amount: {
                         required: true,
                         number: true
                     },
-                    email: {
-                        required: true,
-                        email: true,
-                        remote: '/account/validate-email'
+                    date: {
+                        required: true
                     },
-                    password: {
-                        required: true,
-                        minlength: 6,
-                        validPassword: true
+                    payment: {
+                        required: true
                     },
-                    password_confirmation: {
-                        equalTo: '#inputPassword'
+                    category: {
+                        required: true
                     }
                 },
                 messages: {
                     amount: {
-                        number: 'Proszę wpisać poprawną kwotę.',
-                        min: 'Proszę wpisać kwotę większą lub równą 0.01'
+                        number: 'Proszę wpisać kwotę do 2 miejsc po przecinku.',
+                        min: 'Proszę wpisać kwotę większą lub równą 0.01.'
                     }
                 }
             });

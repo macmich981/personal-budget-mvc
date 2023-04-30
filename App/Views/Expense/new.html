@@ -22,12 +22,16 @@
 
                         <form method="post" action="/expense/create" id="formAddExpense">
 
+                            <div class="amountErr"></div>
+
                             <div class="input-group mb-3">
                                 <span class="input-group-text">
                                     <i class="fa-solid fa-pen"></i>
                                 </span>
                                 <input type="number" name="amount" id="inputExpense" step="0.01" class="form-control" min="0.01" placeholder="Wpisz kwotę..." value="{{ expense.amount }}">
                             </div>
+
+                            <div class="dateErr"></div>
 
                             <div class="input-group mb-3">
                                 <span class="input-group-text">
@@ -41,6 +45,8 @@
                             </div>
 
                             <input type="hidden" name="payment" value="">
+
+                            <div class="paymentErr"></div>
 
                             <div class="input-group mb-3">
                                 <span class="input-group-text">
@@ -63,6 +69,8 @@
                             </div>
 
                             <input type="hidden" name="category" value="">
+
+                            <div class="categoryErr"></div>
                             
                             <div class="input-group mb-3">
                                 <span class="input-group-text">
