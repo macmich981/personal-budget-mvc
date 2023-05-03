@@ -84,7 +84,9 @@
                 rules: {
                     amount: {
                         required: true,
-                        number: true
+                        number: true,
+                        min: 0.01,
+                        max: 1000000000.00
                     },
                     date: {
                         required: true
@@ -101,7 +103,8 @@
                 messages: {
                     amount: {
                         number: 'Proszę wpisać kwotę do 2 miejsc po przecinku.',
-                        min: 'Proszę wpisać kwotę większą lub równą 0.01.'
+                        min: 'Proszę wpisać kwotę większą lub równą 0.01.',
+                        max: 'Kwota max. wynosi 1000000000'
                     },
                     payment: {
                         remote: 'Proszę wpisać istniejącą metodę płatności'
