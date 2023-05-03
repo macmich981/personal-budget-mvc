@@ -28,7 +28,7 @@
                                 <span class="input-group-text">
                                     <i class="fa-solid fa-pen"></i>
                                 </span>
-                                <input type="number" name="amount" id="inputExpense" step="0.01" class="form-control" min="0.01" placeholder="Wpisz kwotę..." value="{{ expense.amount }}">
+                                <input type="number" name="amount" id="inputExpense" step="0.01" class="form-control" min="0.01" placeholder="Wpisz kwotę..." value="{{ expense.amount }}" required>
                             </div>
 
                             <div class="dateErr"></div>
@@ -38,9 +38,9 @@
                                     <i class="fa-solid fa-calendar"></i>
                                 </span>
                                 {% if expense.date %}
-                                    <input type="text" name="date" id="date" class="date form-control" value="{{ expense.date }}">
+                                    <input type="text" name="date" id="date" class="date form-control" value="{{ expense.date }}" required>
                                 {% else %}
-                                    <input type="text" name="date" id="date" class="date form-control" value="{{ date }}">
+                                    <input type="text" name="date" id="date" class="date form-control" value="{{ date }}" required>
                                 {% endif %}
                             </div>
 
@@ -52,7 +52,7 @@
                                 <span class="input-group-text">
                                     <i class="fa-solid fa-money-check-dollar"></i>
                                 </span>
-                                <select class="form-select" name="payment">
+                                <select class="form-select" name="payment" required>
                                     {% if expense.payment %}
                                         <option value="{{ expense.payment }}">{{ expense.payment }}</option>
                                     {% else %}
@@ -76,7 +76,7 @@
                                 <span class="input-group-text">
                                     <i class="fa-brands fa-shopify"></i>
                                 </span>
-                                <select class="form-select" name="category">
+                                <select class="form-select" name="category" required>
                                     {% if expense.category %}
                                         <option value="{{ expense.category }}">{{ expense.category }}</option>
                                     {% else %}

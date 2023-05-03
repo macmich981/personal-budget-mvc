@@ -90,23 +90,31 @@
                         required: true
                     },
                     payment: {
-                        required: true
+                        required: true,
+                        remote: '/validator/validate-payment-method'
                     },
                     category: {
-                        required: true
+                        required: true,
+                        remote: '/validator/validate-expense-category'
                     }
                 },
                 messages: {
                     amount: {
                         number: 'Proszę wpisać kwotę do 2 miejsc po przecinku.',
                         min: 'Proszę wpisać kwotę większą lub równą 0.01.'
+                    },
+                    payment: {
+                        remote: 'Proszę wpisać istniejącą metodę płatności'
+                    },
+                    category: {
+                        remote: 'Proszę wpisać istniejącą kategorię wydatków'
                     }
                 }
             });
         });
 
         $.validator.methods.number = function(value, element, param) {
-            return this.optional(element) || /^-?(?:\d+|\d{1,2}(?:\.\d{2})+)?(?:,\d+)?$/.test(value);
+            return this.optional(element) || /^-?(?:\d+|\d+(?:\.\d{2})+)?(?:,\d+)?$/.test(value);
         }
     </script>
 
