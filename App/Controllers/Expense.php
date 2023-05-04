@@ -5,6 +5,7 @@ namespace App\Controllers;
 use \Core\View;
 use App\Date;
 use App\Models\ExpenseModel;
+use App\Flash;
 
 class Expense extends Authenticated {
 
@@ -19,13 +20,17 @@ class Expense extends Authenticated {
     public function createAction() {
         $expense = new ExpenseModel($_POST);
         
-        $expense->save();
-        View::renderTemplate('Expense/new.html', [
-            'expense' => $expense,
-            'date' => Date::getCurrentDate(),
-            'paymentMethods' => ExpenseModel::getPaymentMethods(),
-            'categories' => ExpenseModel::getExpenseCategories()
-        ]);
+        if ($expense->save()) {
+            FLASH::addMessage('Wydatek został pomyślnie zapisany');
+            $this->redirect('/expense/new');
+        } else {
+            View::renderTemplate('Expense/new.html', [
+                'expense' => $expense,
+                'date' => Date::getCurrentDate(),
+                'paymentMethods' => ExpenseModel::getPaymentMethods(),
+                'categories' => ExpenseModel::getExpenseCategories()
+            ]);
+        }
     }
 
 }
