@@ -1,0 +1,90 @@
+{% extends "base_with_nav.html" %}
+
+{% block title %}PersonalBudget.com - Dodaj przychód{% endblock %}
+
+{% block body %}
+
+    <main>
+        <section id="add-income">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-3 m-auto content-background">
+                        <h2 class="pt-3 mb-3">Dodawanie przychodu</h2>
+
+                        {% if income.errors is not empty %}
+                            <p>Błędy:</p>
+                                <ul>
+                                    {% for error in income.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                        {% endif %}
+
+                        <form method="post" action="#" id="formAddIncome">
+
+                            <div class="amountErr"></div>
+
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">
+                                    <i class="fa-solid fa-pen"></i>
+                                </span>
+                                <input type="number" name="amount" id="inputIncome" step="0.01" class="form-control" min="0.01" max="1000000000" placeholder="Wpisz kwotę..." value="{{ income.amount }}" required>
+                            </div>
+
+                            <div class="dateErr"></div>
+
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">
+                                    <i class="fa-solid fa-calendar"></i>
+                                </span>
+                                {% if income.date %}
+                                    <input type="text" name="date" id="date" class="date form-control" value="{{ income.date }}" required>
+                                {% else %}
+                                    <input type="text" name="date" id="date" class="date form-control" value="{{ date }}" required>
+                                {% endif %}
+                            </div>
+
+                            <input type="hidden" name="category" value="">
+
+                            <div class="categoryErr"></div>
+                            
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">
+                                    <i class="fa-brands fa-shopify"></i>
+                                </span>
+                                <select class="form-select" name="category" required>
+                                    {% if income.category %}
+                                        <option value="{{ income.category }}">{{ income.category }}</option>
+                                    {% else %}
+                                        <option disabled selected>Wybierz kategorię przychodu...</option>
+                                    {% endif %}
+                                    {% for category in categories %}
+                                        {% for value in category %}
+                                            {% if value != income.category %}
+                                                <option value="{{ value }}">{{ value }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">
+                                    <i class="fa-solid fa-pen"></i>
+                                </span>
+                                <input type="text" name="comment" class="form-control" placeholder="Komentarz...">
+                            </div>
+
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-success mb-3">Dodaj</button>
+                                <button type="button" class="btn btn-danger mb-3">Anuluj</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+{% endblock %}
