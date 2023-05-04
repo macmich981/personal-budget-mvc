@@ -114,6 +114,48 @@
                     }
                 }
             });
+
+            $('#formAddIncome').validate({
+                errorPlacement: function(error, element) {
+                    if (element.attr("name") == "amount") {
+                        error.insertAfter(".amountErr");
+                        error.css('color', 'red');
+                    }
+                    else if (element.attr("name") == "date") {
+                        error.insertBefore(".dateErr");
+                        error.css('color', 'red');
+                    }
+                    else if (element.attr("name") == "category") {
+                        error.insertBefore(".categoryErr");
+                        error.css('color', 'red');
+                    }
+                },
+                rules: {
+                    amount: {
+                        required: true,
+                        number: true,
+                        min: 0.01,
+                        max: 1000000000.00
+                    },
+                    date: {
+                        required: true
+                    },
+                    category: {
+                        required: true,
+                        remote: '/validator/validate-income-category'
+                    }
+                },
+                messages: {
+                    amount: {
+                        number: 'Proszę wpisać kwotę do 2 miejsc po przecinku.',
+                        min: 'Proszę wpisać kwotę większą lub równą 0.01.',
+                        max: 'Kwota max. wynosi 1000000000'
+                    },
+                    category: {
+                        remote: 'Proszę wpisać istniejącą kategorię wydatków'
+                    }
+                }
+            });
         });
 
         $.validator.methods.number = function(value, element, param) {
