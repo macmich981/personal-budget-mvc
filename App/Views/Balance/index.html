@@ -1,0 +1,64 @@
+{% extends "base_with_nav.html" %}
+
+{% block title %}PersonalBudget.com - Bilans{% endblock %}
+
+{% block nav_item %}
+
+    <li class="nav-item">
+        <select class="form-select">
+            <option disabled selected>Wybierz okres...</option>
+            <option>Bieżący miesiąc</option>
+            <option>Poprzedni miesiąc</option>
+            <option>Bieżący rok</option>
+            <option>Niestandardowy</option>
+        </select>
+    </li>
+
+{% endblock %}
+
+{% block body %}
+
+    <main>
+        <section id="balance">
+            <div class="container-fluid">
+
+                <div class="row">
+                    <div class="m-auto content-background">
+                        <h2 class="pt-3 mb-3">Przeglądanie bilansu</h2>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="card-group">
+
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Przychody</h5>
+                                <p class="card-text">Wynagordzenie</p>
+                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Wydatki</h5>
+                                <p class="card-text">Zakupy</p>
+                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Bilans</h5>
+                                <p class="card-text">Gratuluję dobrego zarządzania budżetem</p>
+                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+{% endblock %}
