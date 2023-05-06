@@ -5,12 +5,15 @@
 {% block nav_item %}
 
     <li class="nav-item">
-        <select class="form-select" name="period">
-            <option>Bieżący miesiąc</option>
-            <option>Poprzedni miesiąc</option>
-            <option>Bieżący rok</option>
-            <option>Niestandardowy</option>
-        </select>
+        <form action="/balance/index">
+            <select class="form-select" name="period" onchange="this.form.submit()">
+                <option disabled selected>Wybierz okres...</option>
+                <option value="currentMonth">Bieżący miesiąc</option>
+                <option value="previousMonth">Poprzedni miesiąc</option>
+                <option value="currentYear">Bieżący rok</option>
+                <option value="custom">Niestandardowy</option>
+            </select>
+        </form>
     </li>
 
 {% endblock %}
@@ -23,7 +26,13 @@
 
                 <div class="row">
                     <div class="m-auto content-background">
-                        <h2 class="pt-3 mb-3">Przeglądanie bilansu</h2>
+                        {% if period == 'currentMonth' %}
+                            <h2 class="pt-3 mb-3">Bieżący miesiąc</h2>
+                        {% elseif period == 'previousMonth' %}
+                            <h2 class="pt-3 mb-3">Poprzedni miesiąc</h2>
+                        {% elseif period == 'currentYear' %}
+                            <h2 class="pt-3 mb-3">Bieżący rok</h2>
+                        {% endif %}
                     </div>
                 </div>
 
