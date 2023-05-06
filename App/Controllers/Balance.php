@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use \Core\View;
+use App\Models\ExpenseModel;
 
 class Balance extends Authenticated {
 
@@ -13,8 +14,11 @@ class Balance extends Authenticated {
             $period = 'currentMonth';
         }
         
+        $expenses = ExpenseModel::getExpensesSumSortedByCategory($period);
+
         View::renderTemplate('Balance/index.html', [
-            'period' => $period
+            'period' => $period,
+            'expenses' => $expenses
         ]);
     }
     

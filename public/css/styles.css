@@ -73,3 +73,7 @@ body {
 .content-background {
     background-color: rgb(205, 233, 207);
 }
+
+.card-title {
+    color: rgb(23, 169, 181);
+}
