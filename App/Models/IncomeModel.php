@@ -55,6 +55,8 @@ class IncomeModel extends \Core\Model {
     }
 
     public function validate() {
+        $this->errors = [];
+        
         if ($this->amount == '') {
             $this->errors[] = 'Kwota jest wymagana';
         } else {
@@ -71,27 +73,7 @@ class IncomeModel extends \Core\Model {
             }
         }
 
-        if ($this->date == '') {
-            $this->errors[] = 'Data jest wymagana';
-        } else {
-            $date = date_create_from_format('Y-m-d', $this->date);
-
-            if ($date === false) {
-                $this->errors[] = 'Datę należy wpisać w formacie RRRR-MM-DD';
-            } else {
-                $date_errors = date_get_last_errors();
-                $start_date = new \DateTime('2000-01-01');
-                $end_date = date_create_from_format('Y-m-d', Date::getCurrentDate());
-
-                if (!empty($date_errors)) {
-                    $this->errors[] = 'Niepoprawna data';
-                } else if ($date < $start_date) {
-                    $this->errors[] = 'Data przed 2000-01-01';
-                } else if ($date > $end_date) {
-                    $this->errors[] = 'Data po aktualnym dniu';
-                }
-            }
-        }
+        Date::validateDate($this->date, $this->errors);
 
         if (!static::categoryExists($this->category)) {
             $this->errors[] = 'Należy wybrać istniejącą kategorię przychodu';
