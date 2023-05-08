@@ -231,10 +231,18 @@ class ExpenseModel extends \Core\Model {
     }
 
     public static function getExpensesSumSortedByCategory($period) {
+        $end_date = date_create_from_format('Y-m-d', Date::getCurrentDate());
+        $start_date = date_create_from_format('Y-m-d', Date('Y-m-01'));
+
         switch ($period) {
-            default: {
-                $end_date = date_create_from_format('Y-m-d', Date::getCurrentDate());
-                $start_date = date_create_from_format('Y-m-d', Date('Y-m-01'));
+            case 'previousMonth': {
+                $end_date = date_create_from_format('Y-m-d', date('Y-m-t', strtotime('-1 month')));
+                $start_date = date_create_from_format('Y-m-d', date('Y-m-01', strtotime('-1 month')));
+                break;
+            }
+
+            case 'currentYear': {
+                $start_date = date_create_from_format('Y-m-d', Date('Y-01-01'));
                 break;
             }
         }
