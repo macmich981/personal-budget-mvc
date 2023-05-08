@@ -59,11 +59,9 @@
                                         <option disabled selected>Wybierz sposób płatności...</option>
                                     {% endif %}
                                     {% for method in paymentMethods %}
-                                        {% for value in method %}
-                                            {% if value != expense.payment %}
-                                                <option value="{{ value }}">{{ value }}</option>
-                                            {% endif %}
-                                        {% endfor %}
+                                        {% if method.name != expense.payment %}
+                                            <option value="{{ method.name }}">{{ method.name }}</option>
+                                        {% endif %}
                                     {% endfor %}
                                 </select>
                             </div>
@@ -83,11 +81,9 @@
                                         <option disabled selected>Wybierz rodzaj wydatku...</option>
                                     {% endif %}
                                     {% for category in categories %}
-                                        {% for value in category %}
-                                            {% if value != expense.category %}
-                                                <option value="{{ value }}">{{ value }}</option>
-                                            {% endif %}
-                                        {% endfor %}
+                                        {% if category.name != expense.category %}
+                                            <option value="{{ category.name }}">{{ category.name }}</option>
+                                        {% endif %}
                                     {% endfor %}
                                 </select>
                             </div>

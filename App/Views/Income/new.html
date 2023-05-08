@@ -59,11 +59,9 @@
                                         <option disabled selected>Wybierz kategorię przychodu...</option>
                                     {% endif %}
                                     {% for category in categories %}
-                                        {% for value in category %}
-                                            {% if value != income.category %}
-                                                <option value="{{ value }}">{{ value }}</option>
-                                            {% endif %}
-                                        {% endfor %}
+                                        {% if category.name != income.category %}
+                                            <option value="{{ category.name }}">{{ category.name }}</option>
+                                        {% endif %}
                                     {% endfor %}
                                 </select>
                             </div>
