@@ -158,6 +158,13 @@
                     }
                 }
             });
+
+            $('#period').change(function() {
+                var opval = $(this).val(); 
+                if (opval == "custom") { 
+                    $('#customPeriodModal').modal("show");
+                }
+            });
         });
 
         $.validator.methods.number = function(value, element, param) {
