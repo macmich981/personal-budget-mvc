@@ -33,24 +33,24 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form method="post" action="#">
+                            <form action="/balance/index">
                                 <div class="input-group mb-3">
                                     <span class="input-group-text">
                                         <i class="fa-solid fa-calendar"></i>
                                     </span>
-                                        <input type="text" name="startdate" id="date" class="date form-control" placeholder="Od..." required>
+                                        <input type="text" name="start-date" id="date" class="date form-control" placeholder="Od..." required>
                                 </div>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text">
                                         <i class="fa-solid fa-calendar"></i>
                                     </span>
-                                        <input type="text" name="enddate" id="date" class="date form-control" placeholder="Do..." required>
+                                        <input type="text" name="end-date" id="date" class="date form-control" placeholder="Do..." required>
                                 </div>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
                             </form>
                         </div>
                         <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
                         </div>
                     </div>
                     </div>
@@ -64,6 +64,8 @@
                             <h2 class="pt-3 mb-3">Poprzedni miesiąc</h2>
                         {% elseif period == 'currentYear' %}
                             <h2 class="pt-3 mb-3">Bieżący rok</h2>
+                        {% elseif period == 'custom' %}
+                            <h2 class="pt-3 mb-3">Okres od {{ startdate }} do {{ enddate }}</h2>
                         {% endif %}
                     </div>
                 </div>

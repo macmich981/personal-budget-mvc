@@ -8,18 +8,39 @@ use App\Models\ExpenseModel;
 class Balance extends Authenticated {
 
     public function indexAction() {
+        $period = 'currentMonth';
+        
         if (!empty($_GET['period'])) {
             $period = $_GET['period'];
         } else {
-            $period = 'currentMonth';
+            if (!empty($_GET['start-date'])) {
+                $start_date = $_GET['start-date'];
+                $period = 'custom';
+            }
+            if (!empty($_GET['end-date'])) {
+                $end_date = $_GET['end-date'];
+            }
         }
-        
-        $expenses = ExpenseModel::getExpensesSumSortedByCategory($period);
 
-        View::renderTemplate('Balance/index.html', [
-            'period' => $period,
-            'expenses' => $expenses
-        ]);
+        if (isset($start_date) && isset($end_date)) {
+            $expenses = ExpenseModel::getExpensesSumSortedByCategory($period, $start_date, $end_date);
+        } else {
+            $expenses = ExpenseModel::getExpensesSumSortedByCategory($period);
+        }
+
+        if (!empty($start_date) && !empty($end_date)) {
+            View::renderTemplate('Balance/index.html', [
+                'period' => $period,
+                'expenses' => $expenses,
+                'startdate' => $start_date,
+                'enddate' => $end_date
+            ]);
+        } else {
+            View::renderTemplate('Balance/index.html', [
+                'period' => $period,
+                'expenses' => $expenses
+            ]);
+        }
     }
     
 }
