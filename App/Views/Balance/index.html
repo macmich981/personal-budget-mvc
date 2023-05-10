@@ -34,18 +34,23 @@
                         </div>
                         <div class="modal-body">
                             <form action="/balance/index" id="customPeriodForm">
+
+                                <div class="startDateErr"></div>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text">
                                         <i class="fa-solid fa-calendar"></i>
                                     </span>
                                         <input type="text" name="start-date" id="start-date" class="date form-control" placeholder="Od..." required>
                                 </div>
+
+                                <div class="endDateErr"></div>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text">
                                         <i class="fa-solid fa-calendar"></i>
                                     </span>
                                         <input type="text" name="end-date" id="end-date" class="date form-control" placeholder="Do..." required>
                                 </div>
+
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
                                 <button type="submit" class="btn btn-primary">Wyświetl</button>
                             </form>
@@ -87,7 +92,12 @@
                                 {% for expense in expenses %}
                                     <p class="card-text">{{ expense.name }} : {{ expense.amount }}</p>
                                 {% endfor %}
-                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                            <hr>
+                            {% set totalExpensesSum = 0 %}
+                            {% for expense in expenses %}
+                                {% set totalExpensesSum = totalExpensesSum + expense.amount %}
+                            {% endfor %}
+                            <p>Suma: {{ totalExpensesSum|number_format(2, '.', ' ') }}</p>
                             </div>
                         </div>
 

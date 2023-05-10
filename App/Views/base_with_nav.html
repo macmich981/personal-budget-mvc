@@ -173,13 +173,23 @@
             });
 
             $('#customPeriodForm').validate({
+                errorPlacement: function(error, element) {
+                    if (element.attr("name") == "start-date") {
+                        error.insertAfter(".startDateErr");
+                        error.css('color', 'red');
+                    }
+                    else if (element.attr("name") == "end-date") {
+                        error.insertBefore(".endDateErr");
+                        error.css('color', 'red');
+                    }
+                },
                 rules: {
                     'start-date': {
                         required: true
                     },
                     'end-date': {
                         required: true,
-                        greaterThan: 'start-date'
+                        greaterThan: '#start-date'
                     }
                 },
                 messages: {
@@ -199,15 +209,9 @@
 
         jQuery.validator.addMethod("greaterThan", 
             function(value, element, params) {
-
-                if (!/Invalid|NaN/.test(new Date(value))) {
-                    return new Date(value) > new Date($(params).val());
-                }
-
-                return isNaN(value) && isNaN($(params).val()) 
-                    || (Number(value) > Number($(params).val())); 
+                return value >= $(params).val();
             },
-        'Must be greater than {0}.');
+        'Data końcowa musi być większa od początkowej.');
     </script>
 
 {% endblock %}
