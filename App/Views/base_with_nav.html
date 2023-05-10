@@ -113,6 +113,9 @@
                     },
                     category: {
                         remote: 'Proszę wpisać istniejącą kategorię wydatków'
+                    },
+                    date: {
+                        date: 'Proszę wpisać poprawną datę.'
                     }
                 }
             });
@@ -155,6 +158,9 @@
                     },
                     category: {
                         remote: 'Proszę wpisać istniejącą kategorię wydatków'
+                    },
+                    date: {
+                        date: 'Proszę wpisać poprawną datę.'
                     }
                 }
             });
@@ -163,6 +169,25 @@
                 var opval = $(this).val(); 
                 if (opval == "custom") { 
                     $('#customPeriodModal').modal("show");
+                }
+            });
+
+            $('#customPeriodForm').validate({
+                rules: {
+                    'start-date': {
+                        required: true
+                    },
+                    'end-date': {
+                        required: true
+                    }
+                },
+                messages: {
+                    'start-date': {
+                        date: 'Proszę wpisać poprawną datę.'
+                    },
+                    'end-date': {
+                        date: 'Proszę wpisać poprawną datę.'
+                    }
                 }
             });
         });

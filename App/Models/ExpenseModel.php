@@ -236,10 +236,6 @@ class ExpenseModel extends \Core\Model {
                 }
                 break;
             }
-
-            default: {
-                
-            }
         }
 
         $sql = 'SELECT expenses_category_assigned_to_users.name, SUM(expenses.amount) AS amount
