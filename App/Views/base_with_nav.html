@@ -178,7 +178,8 @@
                         required: true
                     },
                     'end-date': {
-                        required: true
+                        required: true,
+                        greaterThan: 'start-date'
                     }
                 },
                 messages: {
@@ -186,7 +187,7 @@
                         date: 'Proszę wpisać poprawną datę.'
                     },
                     'end-date': {
-                        date: 'Proszę wpisać poprawną datę.'
+                        date: 'Proszę wpisać poprawną datę.',
                     }
                 }
             });
@@ -195,6 +196,18 @@
         $.validator.methods.number = function(value, element, param) {
             return this.optional(element) || /^-?(?:\d+|\d+(?:\.\d{2})+)?(?:,\d+)?$/.test(value);
         }
+
+        jQuery.validator.addMethod("greaterThan", 
+            function(value, element, params) {
+
+                if (!/Invalid|NaN/.test(new Date(value))) {
+                    return new Date(value) > new Date($(params).val());
+                }
+
+                return isNaN(value) && isNaN($(params).val()) 
+                    || (Number(value) > Number($(params).val())); 
+            },
+        'Must be greater than {0}.');
     </script>
 
 {% endblock %}
