@@ -74,6 +74,10 @@ body {
     background-color: rgb(205, 233, 207);
 }
 
-.card-title {
+.card-title, .custom-date {
     color: rgb(23, 169, 181);
+}
+
+.card-text {
+    font-size: 1.5rem;
 }

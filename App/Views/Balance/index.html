@@ -70,7 +70,7 @@
                         {% elseif period == 'currentYear' %}
                             <h2 class="pt-3 mb-3">Bieżący rok</h2>
                         {% elseif period == 'custom' %}
-                            <h2 class="pt-3 mb-3">Okres od {{ startdate }} do {{ enddate }}</h2>
+                            <h2 class="pt-3 mb-3">Okres od <span class="custom-date">{{ startdate }}</span> do <span class="custom-date">{{ enddate }}</span></h2>
                         {% endif %}
                     </div>
                 </div>
@@ -80,9 +80,16 @@
 
                         <div class="card">
                             <div class="card-body">
-                                <h3 class="card-title">Przychody</h3>
-                                <p class="card-text">Wynagordzenie</p>
-                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                                <h3 class="card-title">Przychody</h3><hr>
+                                {% for income in incomes %}
+                                    <p class="card-text">{{ income.name }} : {{ income.amount }}</p>
+                                {% endfor %}
+                                <hr>
+                                {% set totalIncomesSum = 0 %}
+                                {% for income in incomes %}
+                                    {% set totalIncomesSum = totalIncomesSum + income.amount %}
+                                {% endfor %}
+                                <p class="card-text">Suma: {{ totalIncomesSum|number_format(2, '.', ' ') }}</p>
                             </div>
                         </div>
 
@@ -92,19 +99,19 @@
                                 {% for expense in expenses %}
                                     <p class="card-text">{{ expense.name }} : {{ expense.amount }}</p>
                                 {% endfor %}
-                            <hr>
-                            {% set totalExpensesSum = 0 %}
-                            {% for expense in expenses %}
-                                {% set totalExpensesSum = totalExpensesSum + expense.amount %}
-                            {% endfor %}
-                            <p>Suma: {{ totalExpensesSum|number_format(2, '.', ' ') }}</p>
+                                <hr>
+                                {% set totalExpensesSum = 0 %}
+                                {% for expense in expenses %}
+                                    {% set totalExpensesSum = totalExpensesSum + expense.amount %}
+                                {% endfor %}
+                                <p class="card-text">Suma: {{ totalExpensesSum|number_format(2, '.', ' ') }}</p>
                             </div>
                         </div>
 
                         <div class="card">
                             <div class="card-body">
-                                <h3 class="card-title">Bilans</h3>
-                                <p class="card-text">Gratuluję dobrego zarządzania budżetem</p>
+                                <h3 class="card-title">Bilans</h3><hr>
+                                <p class="card-text">{{ totalIncomesSum - totalExpensesSum }}</p>
                                 <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
                             </div>
                         </div>
