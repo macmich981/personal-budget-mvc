@@ -112,7 +112,12 @@
                             <div class="card-body">
                                 <h3 class="card-title">Bilans</h3><hr>
                                 <p class="card-text">{{ totalIncomesSum - totalExpensesSum }}</p>
-                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                                <hr>
+                                {% if totalIncomesSum - totalExpensesSum > 0 %}
+                                    <p class="card-text" style="color: darkgreen;">Gratulujemy poprawnego zarządzania budżetem!</p>
+                                {% else %}
+                                    <p class="card-text" style="color:crimson;">Uważaj! Wpadasz w długi.</p>
+                                {% endif %}
                             </div>
                         </div>
 
