@@ -26,9 +26,11 @@ class Balance extends Authenticated {
         if (isset($start_date) && isset($end_date)) {
             $incomes = IncomeModel::getIncomesSumSortedByCategory($period, $start_date, $end_date);
             $expenses = ExpenseModel::getExpensesSumSortedByCategory($period, $start_date, $end_date);
+            $detailedExpenses = ExpenseModel::getDetailedExpenses($period, $start_date, $end_date);
         } else {
             $incomes = IncomeModel::getIncomesSumSortedByCategory($period);
             $expenses = ExpenseModel::getExpensesSumSortedByCategory($period);
+            $detailedExpenses = ExpenseModel::getDetailedExpenses($period);
         }
 
         if (!empty($start_date) && !empty($end_date)) {
@@ -36,6 +38,7 @@ class Balance extends Authenticated {
                 'period' => $period,
                 'incomes' => $incomes,
                 'expenses' => $expenses,
+                'detailedExpenses' => $detailedExpenses,
                 'startdate' => $start_date,
                 'enddate' => $end_date
             ]);
@@ -43,7 +46,8 @@ class Balance extends Authenticated {
             View::renderTemplate('Balance/index.html', [
                 'period' => $period,
                 'incomes' => $incomes,
-                'expenses' => $expenses
+                'expenses' => $expenses,
+                'detailedExpenses' => $detailedExpenses
             ]);
         }
     }

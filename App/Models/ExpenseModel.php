@@ -267,4 +267,23 @@ class ExpenseModel extends \Core\Model {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public static function getDetailedExpenses($period, $custom_start_date = '0000-00-00', $custom_end_date = '0000-00-00') {
+        $customDates = static::getCustomDates($period, $custom_start_date, $custom_end_date);
+        $end_date = $customDates['end_date'];
+        $start_date = $customDates['start_date'];
+
+        $sql = 'SELECT expenses.amount, expenses_category_assigned_to_users.name, expenses.expense_comment
+                FROM expenses
+                INNER JOIN expenses_category_assigned_to_users ON expenses.expense_category_assigned_to_user_id = expenses_category_assigned_to_users.id
+                WHERE expenses_category_assigned_to_users.user_id = :user_id AND expenses.date_of_expense BETWEEN :start_date AND :end_date';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':start_date', $start_date->format('Y-m-d'), PDO::PARAM_STR);
+        $stmt->bindValue(':end_date', $end_date->format('Y-m-d'), PDO::PARAM_STR);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
