@@ -105,6 +105,9 @@
                                     {% set totalExpensesSum = totalExpensesSum + expense.amount %}
                                 {% endfor %}
                                 <p class="card-text">Suma: {{ totalExpensesSum|number_format(2, '.', ' ') }}</p>
+                                <div id="for-pie-chart" data-expenses="{{ expenses|json_encode }}"></div>
+                                <hr>
+                                <canvas id="expensesChart"></canvas>
                             </div>
                         </div>
 
