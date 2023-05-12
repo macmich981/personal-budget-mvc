@@ -212,7 +212,7 @@ class ExpenseModel extends \Core\Model {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function getExpensesSumSortedByCategory($period, $custom_start_date = '0000-00-00', $custom_end_date = '0000-00-00') {
+    public static function getCustomDates($period, $custom_start_date = '0000-00-00', $custom_end_date = '0000-00-00') {
         $end_date = date_create_from_format('Y-m-d', Date::getCurrentDate());
         $start_date = date_create_from_format('Y-m-d', Date('Y-m-01'));
 
@@ -237,6 +237,18 @@ class ExpenseModel extends \Core\Model {
                 break;
             }
         }
+
+        $dates = [];
+        $dates['start_date'] = $start_date;
+        $dates['end_date'] = $end_date;
+
+        return $dates;
+    }
+
+    public static function getExpensesSumSortedByCategory($period, $custom_start_date = '0000-00-00', $custom_end_date = '0000-00-00') {
+        $customDates = static::getCustomDates($period, $custom_start_date, $custom_end_date);
+        $end_date = $customDates['end_date'];
+        $start_date = $customDates['start_date'];
 
         $sql = 'SELECT expenses_category_assigned_to_users.name, SUM(expenses.amount) AS amount
                 FROM expenses_category_assigned_to_users
