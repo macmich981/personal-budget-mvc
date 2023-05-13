@@ -116,7 +116,7 @@
                                 <h3 class="card-title">Bilans</h3><hr>
                                 <p class="card-text">{{ totalIncomesSum - totalExpensesSum }}</p>
                                 <hr>
-                                {% if totalIncomesSum - totalExpensesSum > 0 %}
+                                {% if totalIncomesSum - totalExpensesSum >= 0 %}
                                     <p class="card-text" style="color: darkgreen;">Gratulujemy poprawnego zarządzania budżetem!</p>
                                 {% else %}
                                     <p class="card-text" style="color:crimson;">Uważaj! Wpadasz w długi.</p>
@@ -141,11 +141,13 @@
                                 <h3 class="card-title">Zestawienie szczegółowe wydatków</h3><hr>
                                 <table class="table table-hover mb-0">
                                     <tbody>
+                                        <th>Data</th>
                                         <th>Kwota</th>
                                         <th>Kategoria</th>
                                         <th>Komentarz</th>
                                         {% for detailedExpense in detailedExpenses%}
                                             <tr>
+                                                <td class="align-middle">{{ detailedExpense.date_of_expense }}</td>
                                                 <td class="align-middle">{{ detailedExpense.amount }}</td>
                                                 <td class="align-middle">{{ detailedExpense.name }}</td>
                                                 <td class="align-middle">{{ detailedExpense.expense_comment }}</td>

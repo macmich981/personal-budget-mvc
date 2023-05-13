@@ -272,10 +272,11 @@ class ExpenseModel extends \Core\Model {
         $end_date = $customDates['end_date'];
         $start_date = $customDates['start_date'];
 
-        $sql = 'SELECT expenses.amount, expenses_category_assigned_to_users.name, expenses.expense_comment
+        $sql = 'SELECT expenses.amount, expenses_category_assigned_to_users.name, expenses.expense_comment, expenses.date_of_expense
                 FROM expenses
                 INNER JOIN expenses_category_assigned_to_users ON expenses.expense_category_assigned_to_user_id = expenses_category_assigned_to_users.id
-                WHERE expenses_category_assigned_to_users.user_id = :user_id AND expenses.date_of_expense BETWEEN :start_date AND :end_date';
+                WHERE expenses_category_assigned_to_users.user_id = :user_id AND expenses.date_of_expense BETWEEN :start_date AND :end_date
+                ORDER BY expenses.date_of_expense';
 
         $db = static::getDB();
         $stmt = $db->prepare($sql);
