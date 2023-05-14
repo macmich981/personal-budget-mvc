@@ -133,6 +133,22 @@
                         <div class="card">
                             <div class="card-body">
                                 <h3 class="card-title">Zestawienie szczegółowe przychodów</h3><hr>
+                                <table class="table table-hover mb-0">
+                                    <tbody>
+                                        <th>Data</th>
+                                        <th>Kwota</th>
+                                        <th>Kategoria</th>
+                                        <th>Komentarz</th>
+                                        {% for detailedIncome in detailedIncomes%}
+                                            <tr>
+                                                <td class="align-middle">{{ detailedIncome.date_of_income }}</td>
+                                                <td class="align-middle">{{ detailedIncome.amount }}</td>
+                                                <td class="align-middle">{{ detailedIncome.name }}</td>
+                                                <td class="align-middle">{{ detailedIncome.expense_comment }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
 
