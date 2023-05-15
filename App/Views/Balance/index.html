@@ -24,7 +24,7 @@
         <section id="balance">
             <div class="container-fluid">
                 
-                <!-- Modal -->
+                <!-- Modal to choose custom period -->
                 <div class="modal fade" id="customPeriodModal" tabindex="-1" aria-labelledby="customPeriodModalLabel" aria-hidden="true" role="dialog">
                     <div class="modal-dialog">
                     <div class="modal-content">
@@ -56,6 +56,25 @@
                             </form>
                         </div>
                         <div class="modal-footer">
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- Modal for edit income -->
+                <div class="modal fade" id="editIncomeModal" tabindex="-1" aria-labelledby="editIncomeLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="editIncomeModalLabel">Edytuj przychód</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                        ...
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+                        <button type="button" class="btn btn-primary">Zapisz zmiany</button>
                         </div>
                     </div>
                     </div>
@@ -145,6 +164,10 @@
                                                 <td class="align-middle">{{ detailedIncome.amount }}</td>
                                                 <td class="align-middle">{{ detailedIncome.name }}</td>
                                                 <td class="align-middle">{{ detailedIncome.expense_comment }}</td>
+                                                <td class="align-middle">
+                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#editIncomeModal"><i class="fa-solid fa-file-pen"></i></button>
+                                                    <button type="button"><i class="fa-solid fa-trash"></i></button>
+                                                </td>
                                             </tr>
                                         {% endfor %}
                                     </tbody>
@@ -167,6 +190,10 @@
                                                 <td class="align-middle">{{ detailedExpense.amount }}</td>
                                                 <td class="align-middle">{{ detailedExpense.name }}</td>
                                                 <td class="align-middle">{{ detailedExpense.expense_comment }}</td>
+                                                <td class="align-middle">
+                                                    <button type="button"><i class="fa-solid fa-file-pen"></i></button>
+                                                    <button type="button"><i class="fa-solid fa-trash"></i></button>
+                                                </td>
                                             </tr>
                                         {% endfor %}
                                     </tbody>
