@@ -65,7 +65,7 @@
         });
 
         $(document).ready(function() {
-            $('#formAddExpense').validate({
+            $('#formAddExpense, #addExpenseModal').validate({
                     errorPlacement: function(error, element) {
                     if (element.attr("name") == "amount") {
                         error.insertAfter(".amountErr");
@@ -272,6 +272,17 @@
             $('.modal-body #date').val(income.date_of_income);
             $('.modal-body #selectIncomeCategory #incomeCategory').val(income.name).text(income.name);
             $('.modal-body #comment').val(income.income_comment);
+        });
+
+        // expense data in edit income modal
+        $(document).on('click', '#edit-expense', function() {
+            var expense = $(this).data('expense');
+            $('.modal-body #expenseId').val(expense.id);
+            $('.modal-body #inputExpense').val(expense.amount);
+            $('.modal-body #date').val(expense.date_of_expense);
+            $('.modal-body #selectPaymentMethod #paymentMethod').val(expense.payment).text(expense.payment);
+            $('.modal-body #selectExpenseCategory #expenseCategory').val(expense.name).text(expense.name);
+            $('.modal-body #comment').val(expense.expense_comment);
         });
     </script>
 

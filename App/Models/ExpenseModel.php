@@ -18,42 +18,18 @@ class ExpenseModel extends \Core\Model {
         $this->validate();
 
         if (empty($this->errors)) {
-            $paymentMethodId = null;
             $paymentMethodAssignedToUser = static::findPaymentMethodAssignedToUser($this->payment);
-            $categoryId = null;
             $categoryAssignedToUser = static::findCategoryAssignedToUser($this->category);
             $db = static::getDB();
 
             if (!$paymentMethodAssignedToUser) {
-                $sql = 'INSERT INTO payment_methods_assigned_to_users (user_id, name)
-                        VALUES (:user_id, :name)';
-                
-                $stmt = $db->prepare($sql);
-                $stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
-                $stmt->bindValue(':name', $this->payment, PDO::PARAM_STR);
-
-                if (!$stmt->execute()) {
-                    return false;
-                }
-
-                $paymentMethodId = $db->lastInsertId();
+                $paymentMethodId = static::saveCategoryAssignedToUser($this->payment);
             } else {
                 $paymentMethodId = $paymentMethodAssignedToUser['id'];
             }
 
             if (!$categoryAssignedToUser) {
-                $sql = 'INSERT INTO expenses_category_assigned_to_users (user_id, name)
-                        VALUES (:user_id, :name)';
-
-                $stmt = $db->prepare($sql);
-                $stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
-                $stmt->bindValue(':name', $this->category, PDO::PARAM_STR);
-
-                if (!$stmt->execute()) {
-                    return false;
-                }
-
-                $categoryId = $db->lastInsertId();
+                $categoryId = static::saveCategoryAssignedToUser($this->category);
             } else {
                 $categoryId = $categoryAssignedToUser['id'];
             }
@@ -72,6 +48,31 @@ class ExpenseModel extends \Core\Model {
             return $stmt->execute();
         }
         return false;
+    }
+
+    public static function savePaymentMethodAssignedToUser($payment) {
+        $db = static::getDB();
+        $sql = 'INSERT INTO payment_methods_assigned_to_users (user_id, name)
+                VALUES (:user_id, :name)';
+                
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':name', $payment, PDO::PARAM_STR);
+
+        return $db->lastInsertId();
+    }
+
+    public static function saveCategoryAssignedToUser($category) {
+        $db = static::getDB();
+        $sql = 'INSERT INTO expenses_category_assigned_to_users (user_id, name)
+                VALUES (:user_id, :name)';
+
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':name', $category, PDO::PARAM_STR);
+        $stmt->execute();
+
+        return $db->lastInsertId();
     }
 
     public function validate() {
@@ -272,10 +273,11 @@ class ExpenseModel extends \Core\Model {
         $end_date = $customDates['end_date'];
         $start_date = $customDates['start_date'];
 
-        $sql = 'SELECT expenses.amount, expenses_category_assigned_to_users.name, expenses.expense_comment, expenses.date_of_expense
+        $sql = 'SELECT expenses.id, expenses.amount, payment_methods_assigned_to_users.name AS payment, expenses_category_assigned_to_users.name, expenses.expense_comment, expenses.date_of_expense
                 FROM expenses
                 INNER JOIN expenses_category_assigned_to_users ON expenses.expense_category_assigned_to_user_id = expenses_category_assigned_to_users.id
-                WHERE expenses_category_assigned_to_users.user_id = :user_id AND expenses.date_of_expense BETWEEN :start_date AND :end_date
+                INNER JOIN payment_methods_assigned_to_users ON expenses.payment_method_assigned_to_user_id = payment_methods_assigned_to_users.id
+                WHERE expenses_category_assigned_to_users.user_id = :user_id AND payment_methods_assigned_to_users.user_id = :user_id AND expenses.date_of_expense BETWEEN :start_date AND :end_date
                 ORDER BY expenses.date_of_expense';
 
         $db = static::getDB();

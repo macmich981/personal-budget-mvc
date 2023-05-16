@@ -125,6 +125,82 @@
                     </div>
                 </div>
 
+                <!-- Modal for edit expense -->
+                <div class="modal fade" id="editExpenseModal" tabindex="-1" aria-labelledby="editExpenseLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="editExpenseModalLabel">Edytuj wydatek</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="post" action="/expense/update" id="addExpenseModal">
+                                <input type="hidden" name="expenseId" id="expenseId">
+
+                                <div class="amountErr"></div>
+
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </span>
+                                    <input type="number" name="amount" id="inputExpense" step="0.01" class="form-control" min="0.01" max="1000000000" placeholder="Wpisz kwotę..." value="{{ expense.amount }}" required>
+                                </div>
+
+                                <div class="dateErr"></div>
+
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">
+                                        <i class="fa-solid fa-calendar"></i>
+                                    </span>
+                                    <input type="text" name="date" id="date" class="date form-control" required>
+                                </div>
+
+                                <div class="paymentErr"></div>
+
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">
+                                        <i class="fa-solid fa-money-check-dollar"></i>
+                                    </span>
+                                    <select class="form-select" name="payment" id="selectPaymentMethod" required>
+                                        <option id="paymentMethod"></option>
+                                        {% for method in paymentMethods %}
+                                            <option value="{{ method.name }}">{{ method.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div class="categoryErr"></div>
+                            
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">
+                                        <i class="fa-brands fa-shopify"></i>
+                                    </span>
+                                    <select class="form-select" name="category" id="selectExpenseCategory" required>
+                                        <option id="expenseCategory"></option>
+                                        {% for category in expenseCategories %}
+                                            <option value="{{ category.name }}">{{ category.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </span>
+                                    <input type="text" name="comment" id="comment" class="form-control" placeholder="Komentarz...">
+                                </div>
+
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+                                <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="m-auto content-background">
                         {% if period == 'currentMonth' %}
@@ -236,7 +312,7 @@
                                                 <td class="align-middle">{{ detailedExpense.name }}</td>
                                                 <td class="align-middle">{{ detailedExpense.expense_comment }}</td>
                                                 <td class="align-middle">
-                                                    <button type="button"><i class="fa-solid fa-file-pen"></i></button>
+                                                    <button type="button" id="edit-expense" data-bs-toggle="modal" data-bs-target="#editExpenseModal" data-expense="{{ detailedExpense|json_encode }}"><i class="fa-solid fa-file-pen"></i></button>
                                                     <button type="button"><i class="fa-solid fa-trash"></i></button>
                                                 </td>
                                             </tr>
