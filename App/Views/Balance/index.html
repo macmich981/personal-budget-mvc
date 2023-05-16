@@ -36,6 +36,7 @@
                             <form action="/balance/index" id="customPeriodForm">
 
                                 <div class="startDateErr"></div>
+
                                 <div class="input-group mb-3">
                                     <span class="input-group-text">
                                         <i class="fa-solid fa-calendar"></i>
@@ -44,6 +45,7 @@
                                 </div>
 
                                 <div class="endDateErr"></div>
+
                                 <div class="input-group mb-3">
                                     <span class="input-group-text">
                                         <i class="fa-solid fa-calendar"></i>
@@ -70,7 +72,49 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                        ...
+                            <form>
+                                <input type="hidden" name="incomeId" id="incomeId">
+
+                                <div class="amountErr"></div>
+
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </span>
+                                    <input type="number" name="amount" id="inputIncome" step="0.01" class="form-control" min="0.01" max="1000000000" placeholder="Wpisz kwotę..." value="{{ income.amount }}" required>
+                                </div>
+
+                                <div class="dateErr"></div>
+
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">
+                                        <i class="fa-solid fa-calendar"></i>
+                                    </span>
+                                    <input type="text" name="date" id="date" class="date form-control" required>
+                                </div>
+
+                                <div class="categoryErr"></div>
+                            
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">
+                                        <i class="fa-brands fa-shopify"></i>
+                                    </span>
+                                    <select class="form-select" name="category" id="selectIncomeCategory" required>
+                                        <option id="incomeCategory"></option>
+                                        {% for category in incomeCategories %}
+                                            <option value="{{ category.name }}">{{ category.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </span>
+                                    <input type="text" name="comment" id="comment" class="form-control" placeholder="Komentarz...">
+                                </div>
+
+                            </form>
                         </div>
                         <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
@@ -163,9 +207,9 @@
                                                 <td class="align-middle">{{ detailedIncome.date_of_income }}</td>
                                                 <td class="align-middle">{{ detailedIncome.amount }}</td>
                                                 <td class="align-middle">{{ detailedIncome.name }}</td>
-                                                <td class="align-middle">{{ detailedIncome.expense_comment }}</td>
+                                                <td class="align-middle">{{ detailedIncome.income_comment }}</td>
                                                 <td class="align-middle">
-                                                    <button type="button" data-bs-toggle="modal" data-bs-target="#editIncomeModal"><i class="fa-solid fa-file-pen"></i></button>
+                                                    <button type="button" id="edit-income" data-bs-toggle="modal" data-bs-target="#editIncomeModal" data-income="{{ detailedIncome|json_encode }}"><i class="fa-solid fa-file-pen"></i></button>
                                                     <button type="button"><i class="fa-solid fa-trash"></i></button>
                                                 </td>
                                             </tr>

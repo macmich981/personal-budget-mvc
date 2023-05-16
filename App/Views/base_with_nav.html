@@ -263,6 +263,16 @@
                 }]
             },
         });
+
+        // id income in edit income modal
+        $(document).on('click', '#edit-income', function() {
+            var income = $(this).data('income');
+            $('.modal-body #incomeId').val(income.id);
+            $('.modal-body #inputIncome').val(income.amount);
+            $('.modal-body #date').val(income.date_of_income);
+            $('.modal-body #selectIncomeCategory #incomeCategory').val(income.name).text(income.name);
+            $('.modal-body #comment').val(income.income_comment);
+        });
     </script>
 
 {% endblock %}

@@ -18,23 +18,11 @@ class IncomeModel extends \Core\Model {
         $this->validate();
 
         if (empty($this->errors)) {
-            $categoryId = null;
             $categoryAssignedToUser = static::findCategoryAssignedToUser($this->category);
             $db = static::getDB();
 
             if (!$categoryAssignedToUser) {
-                $sql = 'INSERT INTO incomes_category_assigned_to_users (user_id, name)
-                        VALUES (:user_id, :name)';
-
-                $stmt = $db->prepare($sql);
-                $stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
-                $stmt->bindValue(':name', $this->category, PDO::PARAM_STR);
-
-                if (!$stmt->execute()) {
-                    return false;
-                }
-
-                $categoryId = $db->lastInsertId();
+                $categoryId = static::saveCategoryAssignedToUser($this->category);
             } else {
                 $categoryId = $categoryAssignedToUser['id'];
             }
@@ -52,6 +40,19 @@ class IncomeModel extends \Core\Model {
             return $stmt->execute();
         }
         return false;
+    }
+
+    public static function saveCategoryAssignedToUser($category) {
+        $db = static::getDB();
+        $sql = 'INSERT INTO incomes_category_assigned_to_users (user_id, name)
+                VALUES (:user_id, :name)';
+
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':name', $category, PDO::PARAM_STR);
+        $stmt->execute();
+
+        return $db->lastInsertId();
     }
 
     public function validate() {
@@ -196,7 +197,7 @@ class IncomeModel extends \Core\Model {
         $end_date = $customDates['end_date'];
         $start_date = $customDates['start_date'];
 
-        $sql = 'SELECT incomes.amount, incomes_category_assigned_to_users.name, incomes.income_comment, incomes.date_of_income
+        $sql = 'SELECT incomes.id, incomes.amount, incomes_category_assigned_to_users.name, incomes.income_comment, incomes.date_of_income
                 FROM incomes
                 INNER JOIN incomes_category_assigned_to_users ON incomes.income_category_assigned_to_user_id = incomes_category_assigned_to_users.id
                 WHERE incomes_category_assigned_to_users.user_id = :user_id AND incomes.date_of_income BETWEEN :start_date AND :end_date
@@ -210,6 +211,38 @@ class IncomeModel extends \Core\Model {
         $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function update() {
+        $this->validate();
+
+        if (empty($this->errors)) {
+            $categoryAssignedToUser = static::findCategoryAssignedToUser($this->category);
+            $db = static::getDB();
+
+            if (!$categoryAssignedToUser) {
+                $categoryId = static::saveCategoryAssignedToUser($this->category);
+            } else {
+                $categoryId = $categoryAssignedToUser['id'];
+            }
+
+            $sql = 'UPDATE incomes (income_category_assigned_to_user_id, amount, date_of_income, income_comment)
+                    SET income_category_assigned_to_user_id = :income_category_id,
+                        amount = :amount,
+                        date_of_income = :date,
+                        income_comment = :income_comment
+                    WHERE id = :id';
+
+            $stmt = $db->prepare($sql);
+            $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+            $stmt->bindValue(':income_category_id', $categoryId, PDO::PARAM_INT);
+            $stmt->bindValue(':amount', $this->amount, PDO::PARAM_STR);
+            $stmt->bindValue(':date', $this->date, PDO::PARAM_STR);
+            $stmt->bindValue(':income_comment', $this->comment, PDO::PARAM_STR);
+
+            return $stmt->execute();
+        }
+        return false;
     }
 
 }

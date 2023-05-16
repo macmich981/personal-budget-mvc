@@ -35,6 +35,8 @@ class Balance extends Authenticated {
             $detailedExpenses = ExpenseModel::getDetailedExpenses($period);
         }
 
+        $incomeCategories = IncomeModel::getIncomeCategories();
+
         if (!empty($start_date) && !empty($end_date)) {
             View::renderTemplate('Balance/index.html', [
                 'period' => $period,
@@ -42,6 +44,7 @@ class Balance extends Authenticated {
                 'detailedIncomes' => $detailedIncomes,
                 'expenses' => $expenses,
                 'detailedExpenses' => $detailedExpenses,
+                'incomeCategories' => $incomeCategories,
                 'startdate' => $start_date,
                 'enddate' => $end_date
             ]);
@@ -51,7 +54,8 @@ class Balance extends Authenticated {
                 'incomes' => $incomes,
                 'detailedIncomes' => $detailedIncomes,
                 'expenses' => $expenses,
-                'detailedExpenses' => $detailedExpenses
+                'detailedExpenses' => $detailedExpenses,
+                'incomeCategories' => $incomeCategories
             ]);
         }
     }
