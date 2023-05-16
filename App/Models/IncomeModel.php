@@ -226,7 +226,7 @@ class IncomeModel extends \Core\Model {
                 $categoryId = $categoryAssignedToUser['id'];
             }
 
-            $sql = 'UPDATE incomes (income_category_assigned_to_user_id, amount, date_of_income, income_comment)
+            $sql = 'UPDATE incomes
                     SET income_category_assigned_to_user_id = :income_category_id,
                         amount = :amount,
                         date_of_income = :date,
@@ -234,7 +234,7 @@ class IncomeModel extends \Core\Model {
                     WHERE id = :id';
 
             $stmt = $db->prepare($sql);
-            $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+            $stmt->bindValue(':id', $this->incomeId, PDO::PARAM_INT);
             $stmt->bindValue(':income_category_id', $categoryId, PDO::PARAM_INT);
             $stmt->bindValue(':amount', $this->amount, PDO::PARAM_STR);
             $stmt->bindValue(':date', $this->date, PDO::PARAM_STR);

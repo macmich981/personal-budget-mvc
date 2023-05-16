@@ -31,4 +31,16 @@ class Income extends Authenticated {
         }
     }
 
+    public function updateAction() {
+        $income = new IncomeModel($_POST);
+
+        if ($income->update()) {
+            FLASH::addMessage('Przychód został zaktualizowany.');
+            $this->redirect('/balance/index');
+        } else {
+            FLASH::addMessage('Błąd zapisu do bazy danych.', FLASH::WARNING);
+            $this->redirect('/balance/index');
+        }
+    }
+
 }
