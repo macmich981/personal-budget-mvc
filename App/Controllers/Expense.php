@@ -33,4 +33,16 @@ class Expense extends Authenticated {
         }
     }
 
+    public function updateAction() {
+        $expense = new ExpenseModel($_POST);
+
+        if ($expense->update()) {
+            FLASH::addMessage('Wydatek został zaktualizowany.');
+            $this->redirect('/balance/index');
+        } else {
+            FLASH::addMessage('Błąd zapisu do bazy danych.', FLASH::WARNING);
+            $this->redirect('/balance/index');
+        }
+    }
+
 }

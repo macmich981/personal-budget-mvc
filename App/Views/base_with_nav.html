@@ -264,6 +264,14 @@
             },
         });
 
+        $('#editExpenseModal').on('hidden.bs.modal', function(e){
+           $(this).find('#addExpenseModal')[0].reset();           
+        });
+
+        $('#editIncomeModal').on('hidden.bs.modal', function(e){
+           $(this).find('#addIncomeModal')[0].reset();           
+        });
+
         // income data in edit income modal
         $(document).on('click', '#edit-income', function() {
             var income = $(this).data('income');
@@ -271,6 +279,9 @@
             $('.modal-body #inputIncome').val(income.amount);
             $('.modal-body #date').val(income.date_of_income);
             $('.modal-body #selectIncomeCategory #incomeCategory').val(income.name).text(income.name);
+            $("#selectIncomeCategory option").each(function() {
+                $(this).siblings('[value="'+ this.value +'"]').remove();
+            });
             $('.modal-body #comment').val(income.income_comment);
         });
 
@@ -282,8 +293,12 @@
             $('.modal-body #date').val(expense.date_of_expense);
             $('.modal-body #selectPaymentMethod #paymentMethod').val(expense.payment).text(expense.payment);
             $('.modal-body #selectExpenseCategory #expenseCategory').val(expense.name).text(expense.name);
+            $("#selectPaymentMethod option, #selectExpenseCategory option").each(function() {
+                $(this).siblings('[value="'+ this.value +'"]').remove();
+            });
             $('.modal-body #comment').val(expense.expense_comment);
         });
+
     </script>
 
 {% endblock %}

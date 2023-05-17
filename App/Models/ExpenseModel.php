@@ -289,4 +289,46 @@ class ExpenseModel extends \Core\Model {
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function update() {
+        $this->validate();
+
+        if (empty($this->errors)) {
+            $paymentMethodAssignedToUser = static::findPaymentMethodAssignedToUser($this->payment);
+            $categoryAssignedToUser = static::findCategoryAssignedToUser($this->category);
+            $db = static::getDB();
+
+            if (!$paymentMethodAssignedToUser) {
+                $paymentMethodId = static::saveCategoryAssignedToUser($this->payment);
+            } else {
+                $paymentMethodId = $paymentMethodAssignedToUser['id'];
+            }
+
+            if (!$categoryAssignedToUser) {
+                $categoryId = static::saveCategoryAssignedToUser($this->category);
+            } else {
+                $categoryId = $categoryAssignedToUser['id'];
+            }
+
+            $sql = 'UPDATE expenses
+                    SET expense_category_assigned_to_user_id = :income_category_id,
+                        payment_method_assigned_to_user_id = :payment_method_id,
+                        amount = :amount,
+                        date_of_expense = :date,
+                        expense_comment = :income_comment
+                    WHERE id = :id';
+
+            $stmt = $db->prepare($sql);
+            $stmt->bindValue(':id', $this->expenseId, PDO::PARAM_INT);
+            $stmt->bindValue(':payment_method_id', $paymentMethodId, PDO::PARAM_INT);
+            $stmt->bindValue(':income_category_id', $categoryId, PDO::PARAM_INT);
+            $stmt->bindValue(':amount', $this->amount, PDO::PARAM_STR);
+            $stmt->bindValue(':date', $this->date, PDO::PARAM_STR);
+            $stmt->bindValue(':income_comment', $this->comment, PDO::PARAM_STR);
+
+            return $stmt->execute();
+        }
+        return false;
+    }
+
 }
