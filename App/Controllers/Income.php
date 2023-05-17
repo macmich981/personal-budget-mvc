@@ -43,4 +43,14 @@ class Income extends Authenticated {
         }
     }
 
+    public function deleteAction() {
+        if (IncomeModel::delete($_POST['incomeId'])) {
+            FLASH::addMessage('Przychód został zaktualizowany.');
+            $this->redirect('/balance/index');
+        } else {
+            FLASH::addMessage('Błąd: nie udało się usunąć przychodu.', FLASH::WARNING);
+            $this->redirect('/balance/index');
+        }
+    }
+
 }

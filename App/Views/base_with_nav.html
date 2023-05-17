@@ -285,6 +285,12 @@
             $('.modal-body #comment').val(income.income_comment);
         });
 
+        // income id for delete income modal
+        $(document).on('click', '#delete-income', function() {
+            var id = $(this).data('id');
+            $('.modal-body #incomeId').val(id);
+        });
+
         // expense data in edit income modal
         $(document).on('click', '#edit-expense', function() {
             var expense = $(this).data('expense');

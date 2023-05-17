@@ -245,4 +245,15 @@ class IncomeModel extends \Core\Model {
         return false;
     }
 
+    public static function delete($id) {
+        $sql = 'DELETE FROM incomes
+                WHERE id = :id';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+
 }
