@@ -23,7 +23,7 @@ class ExpenseModel extends \Core\Model {
             $db = static::getDB();
 
             if (!$paymentMethodAssignedToUser) {
-                $paymentMethodId = static::saveCategoryAssignedToUser($this->payment);
+                $paymentMethodId = static::savePaymentMethodAssignedToUser($this->payment);
             } else {
                 $paymentMethodId = $paymentMethodAssignedToUser['id'];
             }
@@ -58,6 +58,7 @@ class ExpenseModel extends \Core\Model {
         $stmt = $db->prepare($sql);
         $stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
         $stmt->bindValue(':name', $payment, PDO::PARAM_STR);
+        $stmt->execute();
 
         return $db->lastInsertId();
     }
@@ -299,7 +300,7 @@ class ExpenseModel extends \Core\Model {
             $db = static::getDB();
 
             if (!$paymentMethodAssignedToUser) {
-                $paymentMethodId = static::saveCategoryAssignedToUser($this->payment);
+                $paymentMethodId = static::savePaymentMethodAssignedToUser($this->payment);
             } else {
                 $paymentMethodId = $paymentMethodAssignedToUser['id'];
             }
