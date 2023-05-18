@@ -291,7 +291,13 @@
             $('.modal-body #incomeId').val(id);
         });
 
-        // expense data in edit income modal
+        // expense id for delete expense modal
+        $(document).on('click', '#delete-expense', function() {
+            var id = $(this).data('id');
+            $('.modal-body #expenseId').val(id);
+        });
+
+        // expense data in edit expense modal
         $(document).on('click', '#edit-expense', function() {
             var expense = $(this).data('expense');
             $('.modal-body #expenseId').val(expense.id);

@@ -45,4 +45,14 @@ class Expense extends Authenticated {
         }
     }
 
+    public function deleteAction() {
+        if (ExpenseModel::delete($_POST['expenseId'])) {
+            FLASH::addMessage('Wydatek został usunięty.');
+            $this->redirect('/balance/index');
+        } else {
+            FLASH::addMessage('Błąd: nie udało się usunąć wydatku.', FLASH::WARNING);
+            $this->redirect('/balance/index');
+        }
+    }
+
 }
