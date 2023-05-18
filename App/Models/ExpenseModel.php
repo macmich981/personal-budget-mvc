@@ -89,8 +89,8 @@ class ExpenseModel extends \Core\Model {
             } else {
                 if ($this->amount <= 0) {
                     $this->errors[] = 'Kwota musi być większa od 0';
-                } else if ($this->amount > 1000000000) {
-                    $this->errors[] = 'Kwota max. to 1000000000';
+                } else if ($this->amount > 1000000) {
+                    $this->errors[] = 'Kwota max. to 1000000';
                 }
             }
         }

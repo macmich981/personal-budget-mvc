@@ -61,7 +61,8 @@
         $(".date").datepicker({
             startDate: '2000-01-01',
             endDate: new Date(),
-            language: 'pl'
+            language: 'pl',
+            autoclose: true
         });
 
         $(document).ready(function() {
@@ -89,7 +90,7 @@
                         required: true,
                         number: true,
                         min: 0.01,
-                        max: 1000000000.00
+                        max: 1000000.00
                     },
                     date: {
                         required: true
@@ -107,7 +108,7 @@
                     amount: {
                         number: 'Proszę wpisać kwotę do 2 miejsc po przecinku.',
                         min: 'Proszę wpisać kwotę większą lub równą 0.01.',
-                        max: 'Kwota max. wynosi 1000000000'
+                        max: 'Kwota max. wynosi 1000000'
                     },
                     payment: {
                         remote: 'Proszę wpisać istniejącą metodę płatności'
@@ -141,7 +142,7 @@
                         required: true,
                         number: true,
                         min: 0.01,
-                        max: 1000000000.00
+                        max: 1000000.00
                     },
                     date: {
                         required: true
@@ -155,7 +156,7 @@
                     amount: {
                         number: 'Proszę wpisać kwotę do 2 miejsc po przecinku.',
                         min: 'Proszę wpisać kwotę większą lub równą 0.01.',
-                        max: 'Kwota max. wynosi 1000000000'
+                        max: 'Kwota max. wynosi 1000000'
                     },
                     category: {
                         remote: 'Proszę wpisać istniejącą kategorię wydatków'
