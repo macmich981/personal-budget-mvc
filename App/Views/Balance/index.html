@@ -245,7 +245,7 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row balance-period-title">
                     <div class="m-auto content-background">
                         {% if period == 'currentMonth' %}
                             <h2 class="pt-3 mb-3">Bieżący miesiąc</h2>
@@ -317,12 +317,14 @@
                         <div class="card">
                             <div class="card-body">
                                 <h3 class="card-title">Zestawienie szczegółowe przychodów</h3><hr>
-                                <table class="table table-hover mb-0">
+                                <div class="table-responsive table-responsive-{lg}">
+                                <table class="table">
                                     <tbody>
                                         <th>Data</th>
                                         <th>Kwota</th>
                                         <th>Kategoria</th>
                                         <th>Komentarz</th>
+                                        <th>Edytuj/Usuń</th>
                                         {% for detailedIncome in detailedIncomes%}
                                             <tr>
                                                 <td class="align-middle">{{ detailedIncome.date_of_income }}</td>
@@ -337,18 +339,21 @@
                                         {% endfor %}
                                     </tbody>
                                 </table>
+                                </div>
                             </div>
                         </div>
 
                         <div class="card">
                             <div class="card-body">
                                 <h3 class="card-title">Zestawienie szczegółowe wydatków</h3><hr>
-                                <table class="table table-hover mb-0">
+                                <div class="table-responsive table-responsive-{lg}">
+                                <table class="table">
                                     <tbody>
                                         <th>Data</th>
                                         <th>Kwota</th>
                                         <th>Kategoria</th>
                                         <th>Komentarz</th>
+                                        <th>Edytuj/Usuń</th>
                                         {% for detailedExpense in detailedExpenses%}
                                             <tr>
                                                 <td class="align-middle">{{ detailedExpense.date_of_expense }}</td>
@@ -363,6 +368,7 @@
                                         {% endfor %}
                                     </tbody>
                                 </table>
+                                </div>
                             </div>
                         </div>
 

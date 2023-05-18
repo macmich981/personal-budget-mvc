@@ -81,3 +81,7 @@ body {
 .card-text {
     font-size: 1.5rem;
 }
+
+.balance-period-title {
+    --bs-gutter-x: 0;
+}
