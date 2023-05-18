@@ -4,10 +4,10 @@
 
 {% block body %}
 
-    <div class="container-fluid">
+    <div class="container">
         <main>
             <section id="content">
-                <div class="row p-5 content-background">
+                <div class="row col-lg-12 m-auto p-5 content-background">
                     {% if current_user %}
                         <h1>Witaj, {{ current_user.username }}</h1>
                     {% endif %}
