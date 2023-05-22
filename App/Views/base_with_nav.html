@@ -225,6 +225,32 @@
                 }
             })
 
+            $('#changePasswordForm').validate({
+                errorPlacement: function(error, element) {
+                    if (element.attr("name") == "old-password") {
+                        error.insertAfter(".oldPassErr");
+                        error.css('color', 'red');
+                    }
+                    else if (element.attr("name") == "password") {
+                        error.insertBefore(".passErr");
+                        error.css('color', 'red');
+                    }
+                    else if (element.attr("name") == "password_confirmation") {
+                        error.insertBefore(".confirmErr");
+                        error.css('color', 'red');
+                    }
+                },
+                rules: {
+                    password: {
+                        required: true,
+                        minlength: 6,
+                        validPassword: true
+                    },
+                    password_confirmation: {
+                        equalTo: '#inputPassword'
+                    }   
+                }
+            })
         });
 
         $.validator.methods.number = function(value, element, param) {

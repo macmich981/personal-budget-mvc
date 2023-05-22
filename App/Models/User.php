@@ -263,4 +263,12 @@ class User extends \Core\Model {
         return false;
     }
 
+    public function changePassword($oldPassword, $password, $password_confirmation) {
+        if (!password_verify($oldPassword, $this->password)) {
+            return false;
+        }
+
+        return $this->resetPassword($password, $password_confirmation);
+    }
+
 }

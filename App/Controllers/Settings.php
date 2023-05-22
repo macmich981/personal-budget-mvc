@@ -25,4 +25,20 @@ class Settings extends Authenticated {
         }
     }
 
+    public function changePasswordAction() {
+        $user = Auth::getUser();
+        $oldPassword = $_POST['old-password'];
+        $password = $_POST['password'];
+        $password_confirmation = $_POST['password_confirmation'];
+
+
+        if ($user->changePassword($oldPassword, $password, $password_confirmation)) {
+            FLASH::addMessage('Hasło zostało zmienione.');
+            $this->redirect('/settings/index');
+        } else {
+            FLASH::addMessage('Niewłaście hasło lub błąd zapisu do bazy danych. Proszę sprówbować ponownie.', FLASH::WARNING);
+            $this->redirect('/settings/index');
+        }
+    }
+    
 }
