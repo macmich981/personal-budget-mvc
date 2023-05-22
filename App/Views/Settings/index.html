@@ -1,0 +1,61 @@
+{% extends "base_with_nav.html" %}
+
+{% block title %}PersonalBudget.com - Ustawienia{% endblock %}
+
+{% block body %}
+
+    <main>
+        <section id="settings">
+            <div class="container-fluid">
+
+                <!-- Modal for changing user email address -->
+                <div class="modal fade" id="changeEmailModal" tabindex="-1" aria-labelledby="changeEmailModalLabel" aria-hidden="true" role="dialog">
+                    <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="changeEmailModalLabel">Zmień email</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="#" id="changeEmailForm">
+
+                                <div class="emailErr"></div>
+
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">
+                                        <i class="fa fa-envelope"></i>
+                                    </span>
+                                    <input type="email" class="form-control" placeholder="Email" id="inputEmail" name="email" value="" required >
+                                </div>
+
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+                                <button type="submit" class="btn btn-primary">Zapisz zmianę</button>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="row no-gutter-x">
+                    <div class="m-auto content-background">
+                        <h2 class="pt-3 mb-3">Ustawienia</h2>
+                    </div>
+                    <div class="card col-4 m-auto content-background">
+                        <div class="card-body">
+                            <p class="card-text">
+                                <a href="#" class="btn btn-success btn-lg user-button" id="edit-income" data-bs-toggle="modal" data-bs-target="#changeEmailModal">Zmień email</a>
+                                <a href="#" class="btn btn-success btn-lg user-button">Zmień hasło</a>
+                                <a href="#" class="btn btn-success btn-lg user-button">Zarządzaj metodami płatności</a>
+                                <a href="#" class="btn btn-success btn-lg user-button">Zarządzaj kategoriami przychodów</a>
+                                <a href="#" class="btn btn-success btn-lg user-button">Zarządzaj kategoriami wydatków</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+                    
+{% endblock %}
