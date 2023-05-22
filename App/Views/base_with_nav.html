@@ -204,6 +204,27 @@
                 }
             });
 
+            $('#changeEmailForm').validate({
+                errorPlacement: function(error, element) {
+                    if (element.attr("name") == "email") {
+                        error.insertBefore(".emailErr");
+                        error.css('color', 'red');
+                    }
+                },
+                rules: {
+                    email: {
+                        required: true,
+                        email: true,
+                        remote: '/account/validate-email'
+                    }
+                },
+                messages: {
+                    email: {
+                        remote: 'Adres email jest już zajęty'
+                    }
+                }
+            })
+
         });
 
         $.validator.methods.number = function(value, element, param) {

@@ -243,4 +243,24 @@ class User extends \Core\Model {
         $stmt->execute();
     }
 
+    public function changeEmail($email) {
+        $this->email = $email;
+        $this->password_confirmation = $this->password;
+        $this->validate();
+
+        if (empty($this->errors)) {
+            $sql = 'UPDATE users
+                    SET email = :email
+                    WHERE id = :id';
+
+            $db = static::getDB();
+            $stmt = $db->prepare($sql);
+            $stmt->bindValue(':email', $this->email, PDO::PARAM_STR);
+            $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+
+            return $stmt->execute();
+        }
+        return false;
+    }
+
 }
