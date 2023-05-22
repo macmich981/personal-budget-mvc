@@ -271,4 +271,9 @@ class User extends \Core\Model {
         return $this->resetPassword($password, $password_confirmation);
     }
 
+    public static function checkOldPassword($password) {
+        $user = static::findById($_SESSION['user_id']);
+
+        return password_verify($password, $user->password);
+    }
 }

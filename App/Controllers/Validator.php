@@ -28,4 +28,11 @@ class Validator extends \Core\Controller {
         echo json_encode($is_valid);
     }
     
+    public function validateOldPasswordAction() {
+        $is_valid = User::checkOldPassword($_GET['old-password']);
+
+        header('Content-Type: application/json');
+        echo json_encode($is_valid);
+    }
+
 }
