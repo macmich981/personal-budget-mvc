@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use \App\Models\ExpenseModel;
 use \App\Models\IncomeModel;
+use \App\Models\User;
 
 class Validator extends \Core\Controller {
 
