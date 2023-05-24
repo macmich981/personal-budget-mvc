@@ -357,11 +357,17 @@ class ExpenseModel extends \Core\Model {
         return $stmt->execute();
     }
 
-    public static function deletePaymentAssignedToUser($method) {
+    public static function deletePaymentAssignedToUser($method, $option) {
         if (static::findPaymentMethodAssignedToUser($method)) {
-            $sql = 'DELETE FROM payment_methods_assigned_to_users
-                    WHERE user_id = :user_id AND name = :method';
-
+            if ($option == "1") {
+                $sql = 'UPDATE payment_methods_assigned_to_users
+                        SET name = "Gotówka"
+                        WHERE name = :method AND user_id = :user_id';
+            } else if ($option == "2") {
+                $sql = 'DELETE FROM payment_methods_assigned_to_users
+                        WHERE user_id = :user_id AND name = :method';
+            }
+            
             $db = static::getDB();
             $stmt = $db->prepare($sql);
             $stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
