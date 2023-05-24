@@ -5,6 +5,7 @@ namespace App\Controllers;
 use \Core\View;
 use App\Auth;
 use App\Flash;
+use App\Models\ExpenseModel;
 
 class Settings extends Authenticated {
 
@@ -39,6 +40,20 @@ class Settings extends Authenticated {
             FLASH::addMessage('Niewłaście hasło lub błąd zapisu do bazy danych. Proszę sprówbować ponownie.', FLASH::WARNING);
             $this->redirect('/settings/index');
         }
+    }
+
+    public function editPaymentMethodAction() {
+        $method = $_POST['payment'];
+
+        if (!empty($method)) {
+            if (!ExpenseModel::findPaymentMethod($method)) {
+                ExpenseModel::savePaymentMethodAssignedToUser($method);
+                FLASH::addMessage('Metoda płatności została dodana.');
+            } else {
+                FLASH::addMessage('Metoda płatności już istnieje.', FLASH::WARNING);
+            }
+        }
+        $this->redirect('/settings/index');
     }
     
 }

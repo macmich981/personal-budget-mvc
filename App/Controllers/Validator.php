@@ -36,4 +36,10 @@ class Validator extends \Core\Controller {
         echo json_encode($is_valid);
     }
 
+    public function paymentMethodExistAction() {
+        $is_exist = !ExpenseModel::paymentMethodExists($_GET['payment']);
+        
+        header('Content-Type: application/json');
+        echo json_encode($is_exist);
+    }
 }

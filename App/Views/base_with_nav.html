@@ -260,6 +260,26 @@
                     }
                 }
             })
+
+            $('#editPaymentForm').validate({
+                errorPlacement: function(error, element) {
+                    if (element.attr("name") == "payment") {
+                        error.insertAfter(".paymentErr");
+                        error.css('color', 'red');
+                    }
+                },
+                rules: {
+                    payment: {
+                        required: true,
+                        remote: '/validator/payment-method-exist'
+                    }
+                },
+                messages: {
+                    payment: {
+                        remote: 'Metoda płatności już istnieje.'
+                    }
+                }
+            })
         });
 
         $.validator.methods.number = function(value, element, param) {
