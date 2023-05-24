@@ -162,6 +162,20 @@ class ExpenseModel extends \Core\Model {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public static function getPaymentMethodsCreatedByUser() {
+        $sql = 'SELECT name FROM payment_methods_assigned_to_users
+                WHERE user_id = :user_id
+                EXCEPT
+                SELECT name FROM payment_methods_default';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public static function categoryExists($category) {
         $result = static::findCategory($category);        
 
@@ -343,4 +357,15 @@ class ExpenseModel extends \Core\Model {
         return $stmt->execute();
     }
 
+    public static function deletePayment($method) {
+        $sql = 'DELETE FROM payment_methods_assigned_to_users
+                WHERE user_id = :user_id AND name = :method';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->bindValue(':method', $method, PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
 }

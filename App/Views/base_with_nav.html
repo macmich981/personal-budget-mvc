@@ -261,7 +261,7 @@
                 }
             })
 
-            $('#editPaymentForm').validate({
+            $('#addPaymentForm').validate({
                 errorPlacement: function(error, element) {
                     if (element.attr("name") == "payment") {
                         error.insertAfter(".paymentErr");

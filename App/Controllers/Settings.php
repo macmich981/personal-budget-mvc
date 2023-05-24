@@ -10,7 +10,9 @@ use App\Models\ExpenseModel;
 class Settings extends Authenticated {
 
     public function indexAction() {
-        View::renderTemplate('Settings/index.html');
+        View::renderTemplate('Settings/index.html', [
+            'paymentMethods' => ExpenseModel::getPaymentMethodsCreatedByUser()
+        ]);
     }
 
     public function changeEmailAction() {
@@ -19,11 +21,10 @@ class Settings extends Authenticated {
 
         if ($user->changeEmail($email)) {
             FLASH::addMessage('Adres email został zmieniony.');
-            $this->redirect('/settings/index');
         } else {
             FLASH::addMessage('Adres email już zajęty lub błąd zapisu do bazy danych. Proszę sprówbować ponownie.', FLASH::WARNING);
-            $this->redirect('/settings/index');
         }
+        $this->redirect('/settings/index');
     }
 
     public function changePasswordAction() {
@@ -35,14 +36,13 @@ class Settings extends Authenticated {
 
         if ($user->changePassword($oldPassword, $password, $password_confirmation)) {
             FLASH::addMessage('Hasło zostało zmienione.');
-            $this->redirect('/settings/index');
         } else {
             FLASH::addMessage('Niewłaście hasło lub błąd zapisu do bazy danych. Proszę sprówbować ponownie.', FLASH::WARNING);
-            $this->redirect('/settings/index');
         }
+        $this->redirect('/settings/index');
     }
 
-    public function editPaymentMethodAction() {
+    public function addPaymentMethodAction() {
         $method = $_POST['payment'];
 
         if (!empty($method)) {
@@ -56,4 +56,16 @@ class Settings extends Authenticated {
         $this->redirect('/settings/index');
     }
     
+    public function removePaymentMethodAction() {
+        $method = $_POST['removePayment'];
+
+        if (!empty($method)) {
+            if (ExpenseModel::deletePayment($method)) {
+                FLASH::addMessage('Wybrana metoda płatności została usunięta.');
+            } else {
+                FLASH::addMessage('Wybrana metoda nie mogła zostać usunięta.');
+            }
+        }
+        $this->redirect('/settings/index');
+    }
 }

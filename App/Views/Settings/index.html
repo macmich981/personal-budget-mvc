@@ -86,7 +86,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form method="post" action="/settings/edit-payment-method" id="editPaymentForm">
+                            <form method="post" action="/settings/add-payment-method" id="addPaymentForm">
 
                                 <p>Dodaj metodę płatności</p>
                                 <div class="paymentErr"></div>
@@ -100,11 +100,35 @@
 
                                 <input type="hidden" name="removePayment" value="">
 
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+                                <button type="submit" class="btn btn-primary">Zapisz zmianę</button>
+                            </form>
+
+                            <hr>
+
+                            <form method="post" action="/settings/remove-payment-method" id="removePaymentForm">
+
+                                <p>Usuń metodę płatności</p>
+                                <p style="color: red;">Możesz usunąć wyłącznie metody płatności dodane przez Ciebie</p>
+
+                                <input type="hidden" name="removePayment" value="">
+                                
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">
+                                        <i class="fa-solid fa-money-check-dollar"></i>
+                                    </span>
+                                    <select class="form-select" name="removePayment" required>
+                                        <option disabled selected>Wybierz metodę do usunięcia...</option>
+                                        {% for method in paymentMethods %}
+                                            <option value="{{ method.name }}">{{ method.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
                                 <button type="submit" class="btn btn-primary">Zapisz zmianę</button>
                             </form>
                         </div>
                         <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
                         </div>
                     </div>
                     </div>
