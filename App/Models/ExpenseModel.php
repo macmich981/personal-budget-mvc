@@ -357,7 +357,7 @@ class ExpenseModel extends \Core\Model {
         return $stmt->execute();
     }
 
-    public static function deletePayment($method) {
+    public static function deletePaymentAssignedToUser($method) {
         $sql = 'DELETE FROM payment_methods_assigned_to_users
                 WHERE user_id = :user_id AND name = :method';
 

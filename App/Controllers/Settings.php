@@ -60,7 +60,7 @@ class Settings extends Authenticated {
         $method = $_POST['removePayment'];
 
         if (!empty($method)) {
-            if (ExpenseModel::deletePayment($method)) {
+            if (ExpenseModel::deletePaymentAssignedToUser($method)) {
                 FLASH::addMessage('Wybrana metoda płatności została usunięta.');
             } else {
                 FLASH::addMessage('Wybrana metoda nie mogła zostać usunięta.');
