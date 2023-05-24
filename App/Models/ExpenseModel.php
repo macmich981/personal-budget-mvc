@@ -368,4 +368,18 @@ class ExpenseModel extends \Core\Model {
 
         return $stmt->execute();
     }
+
+    public static function updatePaymentAssignedToUser($method, $newMethod) {
+        $sql = 'UPDATE payment_methods_assigned_to_users
+                SET name = :new_method
+                WHERE name = :method AND user_id = :user_id';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':new_method', $newMethod, PDO::PARAM_STR);
+        $stmt->bindValue(':method', $method, PDO::PARAM_STR);
+        $stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
 }

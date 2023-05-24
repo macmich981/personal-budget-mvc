@@ -56,6 +56,20 @@ class Settings extends Authenticated {
         $this->redirect('/settings/index');
     }
     
+    public function editPaymentMethodAction() {
+        $method = $_POST['editPayment'];
+        $newMethod = $_POST['newPayment'];
+
+        if (!empty($method) && !empty($newMethod)) {
+            if (ExpenseModel::updatePaymentAssignedToUser($method, $newMethod)) {
+                FLASH::addMessage('Wybrana metoda płatności została zmieniona.');
+            } else {
+                FLASH::addMessage('Wybrana metoda płatnośc nie mogła zostać zmieniona.', FLASH::WARNING);
+            }
+        }
+        $this->redirect('/settings/index');
+    }
+
     public function removePaymentMethodAction() {
         $method = $_POST['removePayment'];
 
@@ -63,7 +77,7 @@ class Settings extends Authenticated {
             if (ExpenseModel::deletePaymentAssignedToUser($method)) {
                 FLASH::addMessage('Wybrana metoda płatności została usunięta.');
             } else {
-                FLASH::addMessage('Wybrana metoda nie mogła zostać usunięta.');
+                FLASH::addMessage('Wybrana metoda nie mogła zostać usunięta.', FLASH::WARNING);
             }
         }
         $this->redirect('/settings/index');
