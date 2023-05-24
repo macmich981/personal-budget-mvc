@@ -82,13 +82,13 @@
                     <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="editPaymentModalLabel">Dodaj/usuń metodę płatności</h1>
+                        <h1 class="modal-title fs-5" id="editPaymentModalLabel">Dodaj/edytuj/usuń metodę płatności</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <form method="post" action="/settings/add-payment-method" id="addPaymentForm">
 
-                                <p>Dodaj metodę płatności</p>
+                                <h6>Dodaj metodę płatności</h6>
                                 <div class="paymentErr"></div>
 
                                 <div class="input-group mb-3">
@@ -98,7 +98,35 @@
                                     <input type="text" class="form-control" placeholder="Nazwa metody" id="inputNewPaymentMethod" name="payment" required>
                                 </div>
 
-                                <input type="hidden" name="removePayment" value="">
+                                <button type="submit" class="btn btn-primary">Zapisz zmianę</button>
+                            </form>
+
+                            <hr>
+
+                            <form method="post" action="#" id="editPaymentForm">
+
+                                <h6>Edytuj metodę płatności</h6>
+                                <p style="color: red;">Możesz edytować wyłącznie metody płatności dodane przez Ciebie</p>
+
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">
+                                        <i class="fa-solid fa-money-check-dollar"></i>
+                                    </span>
+                                    <select class="form-select" name="editPayment" required>
+                                        <option disabled selected>Wybierz metodę do zmiany...</option>
+                                        {% for method in paymentMethods %}
+                                            <option value="{{ method.name }}">{{ method.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div class="paymentEditErr"></div>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">
+                                        <i class="fa-solid fa-money-check-dollar"></i>
+                                    </span>
+                                    <input type="text" class="form-control" placeholder="Nazwa metody" id="inputNewPaymentMethod" name="payment" required>
+                                </div>
 
                                 <button type="submit" class="btn btn-primary">Zapisz zmianę</button>
                             </form>
@@ -107,7 +135,7 @@
 
                             <form method="post" action="/settings/remove-payment-method" id="removePaymentForm">
 
-                                <p>Usuń metodę płatności</p>
+                                <h6>Usuń metodę płatności</h6>
                                 <p style="color: red;">Możesz usunąć wyłącznie metody płatności dodane przez Ciebie</p>
 
                                 <input type="hidden" name="removePayment" value="">
@@ -121,6 +149,17 @@
                                         {% for method in paymentMethods %}
                                             <option value="{{ method.name }}">{{ method.name }}</option>
                                         {% endfor %}
+                                    </select>
+                                </div>
+
+                                <label for="removeOptions">Opcje usuwania</label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">
+                                        <i class="fa-solid fa-money-check-dollar"></i>
+                                    </span>
+                                    <select class="form-select" name="removeOptions" required>
+                                        <option selected value="1">Przypisz wydatki do płatności gotówką</option>
+                                        <option value="2">Usuń wszystkie wydatki powiązane z płatnością</option>
                                     </select>
                                 </div>
 
