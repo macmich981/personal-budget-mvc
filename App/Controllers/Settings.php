@@ -58,13 +58,13 @@ class Settings extends Authenticated {
     
     public function editPaymentMethodAction() {
         $method = $_POST['editPayment'];
-        $newMethod = $_POST['newPayment'];
+        $newMethod = $_POST['payment'];
 
         if (!empty($method) && !empty($newMethod)) {
             if (ExpenseModel::updatePaymentAssignedToUser($method, $newMethod)) {
                 FLASH::addMessage('Wybrana metoda płatności została zmieniona.');
             } else {
-                FLASH::addMessage('Wybrana metoda płatnośc nie mogła zostać zmieniona.', FLASH::WARNING);
+                FLASH::addMessage('Wybrana metoda płatności nie mogła zostać zmieniona.', FLASH::WARNING);
             }
         }
         $this->redirect('/settings/index');
