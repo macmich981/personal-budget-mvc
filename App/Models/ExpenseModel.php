@@ -358,20 +358,34 @@ class ExpenseModel extends \Core\Model {
     }
 
     public static function deletePaymentAssignedToUser($method, $option) {
-        if (static::findPaymentMethodAssignedToUser($method)) {
+        $methodAssignedToUser = static::findPaymentMethodAssignedToUser($method);
+        $defaultPaymentMethodId = static::findPaymentMethodAssignedToUser("Gotówka")['id'];
+
+        if (!$defaultPaymentMethodId) {
+            $defaultPaymentMethodId = static::savePaymentMethodAssignedToUser("Gotówka");
+        }
+        $db = static::getDB();
+
+        if ($methodAssignedToUser) {
             if ($option == "1") {
-                $sql = 'UPDATE payment_methods_assigned_to_users
-                        SET name = "Gotówka"
-                        WHERE name = :method AND user_id = :user_id';
+                $sql = 'UPDATE expenses
+                        SET payment_method_assigned_to_user_id = :deafult_id
+                        WHERE payment_method_assigned_to_user_id = :method_id AND user_id = :user_id;
+                        DELETE FROM payment_methods_assigned_to_users
+                        WHERE id = :method_id;';
+
+                $stmt = $db->prepare($sql);
+                $stmt->bindValue(':deafult_id', $defaultPaymentMethodId, PDO::PARAM_INT);
             } else if ($option == "2") {
-                $sql = 'DELETE FROM payment_methods_assigned_to_users
-                        WHERE user_id = :user_id AND name = :method';
+                $sql = 'DELETE FROM expenses
+                        WHERE user_id = :user_id AND payment_method_assigned_to_user_id = :method_id;
+                        DELETE FROM payment_methods_assigned_to_users
+                        WHERE id = :method_id;';
+
+                $stmt = $db->prepare($sql);
             }
-            
-            $db = static::getDB();
-            $stmt = $db->prepare($sql);
+            $stmt->bindValue(':method_id', $methodAssignedToUser['id'], PDO::PARAM_INT);
             $stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
-            $stmt->bindValue(':method', $method, PDO::PARAM_STR);
 
             return $stmt->execute();
         }
