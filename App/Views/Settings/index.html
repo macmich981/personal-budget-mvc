@@ -173,6 +173,102 @@
                     </div>
                 </div>
 
+                <!-- Modal for add/remove payment method -->
+                <div class="modal fade" id="editIncomeCategoryModal" tabindex="-1" aria-labelledby="editIncomeCategoryModalLabel" aria-hidden="true" role="dialog">
+                    <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="editIncomeCategoryModalLabel">Dodaj/edytuj/usuń kategorię przychodu</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="post" action="#" id="addIncomeCategoryForm">
+
+                                <h6>Dodaj kategorię przychodu</h6>
+                                <div class="addIncomeCategoryErr"></div>
+
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </span>
+                                    <input type="text" class="form-control" placeholder="Nazwa kategorii" id="inputNewIncomeCategory" name="inputIncomeCategory" required>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Dodaj kategorię</button>
+                            </form>
+
+                            <hr>
+
+                            <form method="post" action="#" id="incomeCategoryForm">
+
+                                <h6>Edytuj kategorię przychodu</h6>
+                                <p style="color: red;">Możesz edytować wyłącznie kategorie dodane przez Ciebie</p>
+
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </span>
+                                    <select class="form-select" name="editIncomeCategory" required>
+                                        <option disabled selected>Wybierz kategorię do zmiany...</option>
+                                        {% for category in incomeCategories %}
+                                            <option value="{{ category.name }}">{{ category.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div class="editIncomeCategoryErr"></div>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">
+                                        <i class="fa-solid fa-money-check-dollar"></i>
+                                    </span>
+                                    <input type="text" class="form-control" placeholder="Nazwa kategorii" id="inputIncomeCatgory" name="inputIncomeCategory" required>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Zapisz zmianę</button>
+                            </form>
+
+                            <hr>
+
+                            <form method="post" action="#" id="removeIncomeCategoryForm">
+
+                                <h6>Usuń kategorię</h6>
+                                <p style="color: red;">Możesz usunąć wyłącznie kategorie dodane przez Ciebie</p>
+
+                                <input type="hidden" name="removeIncomeCategory" value="">
+                                
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">
+                                        <i class="fa-solid fa-money-check-dollar"></i>
+                                    </span>
+                                    <select class="form-select" name="removeIncomeCategory" required>
+                                        <option disabled selected>Wybierz kategorię do usunięcia...</option>
+                                        {% for category in incomeCategories %}
+                                            <option value="{{ category.name }}">{{ category.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <label for="removeIncomeCategoryOptions">Opcje usuwania</label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">
+                                        <i class="fa-solid fa-money-check-dollar"></i>
+                                    </span>
+                                    <select class="form-select" name="removeIncomeCategoryOptions" required>
+                                        <option selected value="1">Przypisz przychody do kategorii "Inne"</option>
+                                        <option value="2">Usuń wszystkie przychody powiązane z kategorią</option>
+                                    </select>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Usuń</button>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
                 <div class="row no-gutter-x">
                     <div class="m-auto content-background">
                         <h2 class="pt-3 mb-3">Ustawienia</h2>
@@ -183,7 +279,7 @@
                                 <a href="#" class="btn btn-success btn-lg user-button" id="edit-email" data-bs-toggle="modal" data-bs-target="#changeEmailModal">Zmień email</a>
                                 <a href="#" class="btn btn-success btn-lg user-button" id="edit-password" data-bs-toggle="modal" data-bs-target="#changePasswordModal">Zmień hasło</a>
                                 <a href="#" class="btn btn-success btn-lg user-button" id="edit-payment" data-bs-toggle="modal" data-bs-target="#editPaymentModal">Zarządzaj metodami płatności</a>
-                                <a href="#" class="btn btn-success btn-lg user-button">Zarządzaj kategoriami przychodów</a>
+                                <a href="#" class="btn btn-success btn-lg user-button" id="edit-income-category" data-bs-toggle="modal" data-bs-target="#editIncomeCategoryModal">Zarządzaj kategoriami przychodów</a>
                                 <a href="#" class="btn btn-success btn-lg user-button">Zarządzaj kategoriami wydatków</a>
                             </p>
                         </div>

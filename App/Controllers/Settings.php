@@ -6,12 +6,14 @@ use \Core\View;
 use App\Auth;
 use App\Flash;
 use App\Models\ExpenseModel;
+use App\Models\IncomeModel;
 
 class Settings extends Authenticated {
 
     public function indexAction() {
         View::renderTemplate('Settings/index.html', [
-            'paymentMethods' => ExpenseModel::getPaymentMethodsCreatedByUser()
+            'paymentMethods' => ExpenseModel::getPaymentMethodsCreatedByUser(),
+            'incomeCategories' => IncomeModel::getIncomeCategoriesCreatedByUser()
         ]);
     }
 
