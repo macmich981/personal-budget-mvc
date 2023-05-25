@@ -362,11 +362,11 @@
         });
 
         $('#editExpenseModal').on('hidden.bs.modal', function(e){
-           $(this).find('#addExpenseModal')[0].reset();           
+           location.reload();          
         });
 
         $('#editIncomeModal').on('hidden.bs.modal', function(e){
-           $(this).find('#addIncomeModal')[0].reset();           
+            location.reload();          
         });
 
         // income data in edit income modal
