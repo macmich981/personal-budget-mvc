@@ -113,4 +113,18 @@ class Settings extends Authenticated {
         }
         $this->redirect('/settings/index');
     }
+
+    public function removeIncomeCategoryAction() {
+        $category = $_POST['removeIncomeCategory'];
+        $option = $_POST['removeIncomeCategoryOptions'];
+
+        if (!empty($category)) {
+            if (IncomeModel::deleteIncomeCategoryAssignedToUser($category, $option)) {
+                FLASH::addMessage('Wybrana kategoria przychodu została usunięta.');
+            } else {
+                FLASH::addMessage('Wybrana kategoria przychodu nie mogła zostać usunięta.', FLASH::WARNING);
+            }
+        }
+        $this->redirect('/settings/index');
+    }
 }
