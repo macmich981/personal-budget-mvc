@@ -85,4 +85,18 @@ class Settings extends Authenticated {
         }
         $this->redirect('/settings/index');
     }
+
+    public function addIncomeCategoryAction() {
+        $incomeCategory = $_POST['inputIncomeCategory'];
+
+        if (!empty($incomeCategory)) {
+            if (!IncomeModel::findCategory($incomeCategory)) {
+                IncomeModel::saveCategoryAssignedToUser($incomeCategory);
+                FLASH::addMessage('Kategoria przychodu została dodana.');
+            } else {
+                FLASH::addMessage('Kategoria przychodu już istnieje.', FLASH::WARNING);
+            }
+        }
+        $this->redirect('/settings/index');
+    }
 }

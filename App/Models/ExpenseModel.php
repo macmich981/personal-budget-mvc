@@ -359,10 +359,10 @@ class ExpenseModel extends \Core\Model {
 
     public static function deletePaymentAssignedToUser($method, $option) {
         $methodAssignedToUser = static::findPaymentMethodAssignedToUser($method);
-        $defaultPaymentMethodId = static::findPaymentMethodAssignedToUser("Gotówka")['id'];
+        $defaultPaymentMethodId = static::findPaymentMethodAssignedToUser("Cash")['id'];
 
         if (!$defaultPaymentMethodId) {
-            $defaultPaymentMethodId = static::savePaymentMethodAssignedToUser("Gotówka");
+            $defaultPaymentMethodId = static::savePaymentMethodAssignedToUser("Cash");
         }
         $db = static::getDB();
 

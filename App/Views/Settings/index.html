@@ -173,7 +173,7 @@
                     </div>
                 </div>
 
-                <!-- Modal for add/remove payment method -->
+                <!-- Modal for add/edit/remove income category -->
                 <div class="modal fade" id="editIncomeCategoryModal" tabindex="-1" aria-labelledby="editIncomeCategoryModalLabel" aria-hidden="true" role="dialog">
                     <div class="modal-dialog">
                     <div class="modal-content">
@@ -182,7 +182,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form method="post" action="#" id="addIncomeCategoryForm">
+                            <form method="post" action="/settings/add-income-category" id="addIncomeCategoryForm">
 
                                 <h6>Dodaj kategorię przychodu</h6>
                                 <div class="addIncomeCategoryErr"></div>
@@ -219,7 +219,7 @@
                                 <div class="editIncomeCategoryErr"></div>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text">
-                                        <i class="fa-solid fa-money-check-dollar"></i>
+                                        <i class="fa-brands fa-shopify"></i>
                                     </span>
                                     <input type="text" class="form-control" placeholder="Nazwa kategorii" id="inputIncomeCatgory" name="inputIncomeCategory" required>
                                 </div>
@@ -238,7 +238,7 @@
                                 
                                 <div class="input-group mb-3">
                                     <span class="input-group-text">
-                                        <i class="fa-solid fa-money-check-dollar"></i>
+                                        <i class="fa-brands fa-shopify"></i>
                                     </span>
                                     <select class="form-select" name="removeIncomeCategory" required>
                                         <option disabled selected>Wybierz kategorię do usunięcia...</option>
@@ -251,7 +251,7 @@
                                 <label for="removeIncomeCategoryOptions">Opcje usuwania</label>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text">
-                                        <i class="fa-solid fa-money-check-dollar"></i>
+                                        <i class="fa-solid fa-pen"></i>
                                     </span>
                                     <select class="form-select" name="removeIncomeCategoryOptions" required>
                                         <option selected value="1">Przypisz przychody do kategorii "Inne"</option>
