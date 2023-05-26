@@ -13,7 +13,8 @@ class Settings extends Authenticated {
     public function indexAction() {
         View::renderTemplate('Settings/index.html', [
             'paymentMethods' => ExpenseModel::getPaymentMethodsCreatedByUser(),
-            'incomeCategories' => IncomeModel::getIncomeCategoriesCreatedByUser()
+            'incomeCategories' => IncomeModel::getIncomeCategoriesCreatedByUser(),
+            'expenseCategories' => ExpenseModel::getExpenseCategoriesCreatedByUser()
         ]);
     }
 
@@ -127,4 +128,19 @@ class Settings extends Authenticated {
         }
         $this->redirect('/settings/index');
     }
+
+    public function addExpenseCategoryAction() {
+        $expenseCategory = $_POST['inputExpenseCategory'];
+
+        if (!empty($expenseCategory)) {
+            if (!ExpenseModel::findCategory($expenseCategory)) {
+                ExpenseModel::saveCategoryAssignedToUser($expenseCategory);
+                FLASH::addMessage('Kategoria wydatku została dodana.');
+            } else {
+                FLASH::addMessage('Kategoria wydatku już istnieje.', FLASH::WARNING);
+            }
+        }
+        $this->redirect('/settings/index');
+    }
+
 }

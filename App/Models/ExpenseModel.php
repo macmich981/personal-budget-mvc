@@ -228,6 +228,20 @@ class ExpenseModel extends \Core\Model {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public static function getExpenseCategoriesCreatedByUser() {
+        $sql = 'SELECT name FROM expenses_category_assigned_to_users
+                WHERE user_id = :user_id
+                EXCEPT
+                SELECT name FROM expenses_category_default';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public static function getCustomDates($period, $custom_start_date = '0000-00-00', $custom_end_date = '0000-00-00') {
         $end_date = date_create_from_format('Y-m-d', Date::getCurrentDate());
         $start_date = date_create_from_format('Y-m-d', Date('Y-m-01'));

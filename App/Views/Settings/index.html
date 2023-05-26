@@ -269,6 +269,102 @@
                     </div>
                 </div>
 
+                <!-- Modal for add/edit/remove expense category -->
+                <div class="modal fade" id="editExpenseCategoryModal" tabindex="-1" aria-labelledby="editExpenseCategoryModalLabel" aria-hidden="true" role="dialog">
+                    <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="editExpenseCategoryModalLabel">Dodaj/edytuj/usuń kategorię wydatku</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="post" action="/settings/add-expense-category" id="addIncomeCategoryForm">
+
+                                <h6>Dodaj kategorię wydatku</h6>
+                                <div class="addExpenseCategoryErr"></div>
+
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </span>
+                                    <input type="text" class="form-control" placeholder="Nazwa kategorii" id="inputNewExpenseCategory" name="inputExpenseCategory" required>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Dodaj kategorię</button>
+                            </form>
+
+                            <hr>
+
+                            <form method="post" action="#" id="editExpenseCategoryForm">
+
+                                <h6>Edytuj kategorię wydatku</h6>
+                                <p style="color: red;">Możesz edytować wyłącznie kategorie dodane przez Ciebie</p>
+
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </span>
+                                    <select class="form-select" name="editExpenseCategory" required>
+                                        <option disabled selected>Wybierz kategorię do zmiany...</option>
+                                        {% for category in expenseCategories %}
+                                            <option value="{{ category.name }}">{{ category.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div class="editExpenseCategoryErr"></div>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">
+                                        <i class="fa-brands fa-shopify"></i>
+                                    </span>
+                                    <input type="text" class="form-control" placeholder="Nazwa kategorii" id="inputExpenseCatgory" name="inputExpenseCategory" required>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Zapisz zmianę</button>
+                            </form>
+
+                            <hr>
+
+                            <form method="post" action="#" id="removeExpenseCategoryForm">
+
+                                <h6>Usuń kategorię</h6>
+                                <p style="color: red;">Możesz usunąć wyłącznie kategorie dodane przez Ciebie</p>
+
+                                <input type="hidden" name="removeExpenseCategory" value="">
+                                
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">
+                                        <i class="fa-brands fa-shopify"></i>
+                                    </span>
+                                    <select class="form-select" name="removeExpenseCategory" required>
+                                        <option disabled selected>Wybierz kategorię do usunięcia...</option>
+                                        {% for category in expenseCategories %}
+                                            <option value="{{ category.name }}">{{ category.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <label for="removeExpenseCategoryOptions">Opcje usuwania</label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </span>
+                                    <select class="form-select" name="removeExpenseCategoryOptions" required>
+                                        <option selected value="1">Przypisz wydatki do kategorii "Inne"</option>
+                                        <option value="2">Usuń wszystkie wydatki powiązane z kategorią</option>
+                                    </select>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Usuń</button>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
                 <div class="row no-gutter-x">
                     <div class="m-auto content-background">
                         <h2 class="pt-3 mb-3">Ustawienia</h2>
@@ -280,7 +376,7 @@
                                 <a href="#" class="btn btn-success btn-lg user-button" id="edit-password" data-bs-toggle="modal" data-bs-target="#changePasswordModal">Zmień hasło</a>
                                 <a href="#" class="btn btn-success btn-lg user-button" id="edit-payment" data-bs-toggle="modal" data-bs-target="#editPaymentModal">Zarządzaj metodami płatności</a>
                                 <a href="#" class="btn btn-success btn-lg user-button" id="edit-income-category" data-bs-toggle="modal" data-bs-target="#editIncomeCategoryModal">Zarządzaj kategoriami przychodów</a>
-                                <a href="#" class="btn btn-success btn-lg user-button">Zarządzaj kategoriami wydatków</a>
+                                <a href="#" class="btn btn-success btn-lg user-button" id="edit-expense-category" data-bs-toggle="modal" data-bs-target="#editExpenseCategoryModal">Zarządzaj kategoriami wydatków</a>
                             </p>
                         </div>
                     </div>
