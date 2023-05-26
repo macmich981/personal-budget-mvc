@@ -42,4 +42,11 @@ class Validator extends \Core\Controller {
         header('Content-Type: application/json');
         echo json_encode($is_exist);
     }
+
+    public function incomeCategoryExistAction() {
+        $is_exist = !IncomeModel::categoryExists($_GET['inputIncomeCategory']);
+        
+        header('Content-Type: application/json');
+        echo json_encode($is_exist);
+    }
 }
