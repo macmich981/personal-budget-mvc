@@ -422,4 +422,21 @@ class ExpenseModel extends \Core\Model {
         }
         return false;
     }
+
+    public static function updateExpenseCategoryAssignedToUser($category, $newCategory) {
+        if (static::findCategoryAssignedToUser($category)) {
+            $sql = 'UPDATE expenses_category_assigned_to_users
+                    SET name = :new_category
+                    WHERE name = :category AND user_id = :user_id';
+
+            $db = static::getDB();
+            $stmt = $db->prepare($sql);
+            $stmt->bindValue(':new_category', $newCategory, PDO::PARAM_STR);
+            $stmt->bindValue(':category', $category, PDO::PARAM_STR);
+            $stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+
+            return $stmt->execute();
+        }
+        return false;
+    }
 }

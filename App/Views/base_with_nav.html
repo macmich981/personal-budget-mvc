@@ -340,6 +340,47 @@
                     }
                 }
             })
+
+            $('#addExpenseCategoryForm').validate({
+                errorPlacement: function(error, element) {
+                    if (element.attr("name") == "inputExpenseCategory") {
+                        error.insertAfter(".addExpenseCategoryErr");
+                        error.css('color', 'red');
+                    }
+                },
+                rules: {
+                    inputExpenseCategory: {
+                        required: true,
+                        remote: '/validator/expense-category-exist'
+                    }
+                },
+                messages: {
+                    inputExpenseCategory: {
+                        remote: 'Kategoria wydatku już istnieje.'
+                    }
+                }
+            })
+
+            $('#editExpenseCategoryForm').validate({
+                errorPlacement: function(error, element) {
+                    if (element.attr("name") == "inputExpenseCategory") {
+                        error.insertAfter(".editExpenseCategoryErr");
+                        error.css('color', 'red');
+                    }
+                },
+                rules: {
+                    inputExpenseCategory: {
+                        required: true,
+                        remote: '/validator/expense-category-exist'
+                    }
+                },
+                messages: {
+                    inputExpenseCategory: {
+                        remote: 'Kategoria wydatku już istnieje.'
+                    }
+                }
+            })
+
         });
 
         $.validator.methods.number = function(value, element, param) {

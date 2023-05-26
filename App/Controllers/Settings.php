@@ -143,4 +143,18 @@ class Settings extends Authenticated {
         $this->redirect('/settings/index');
     }
 
+    public function editExpenseCategoryAction() {
+        $category = $_POST['editExpenseCategory'];
+        $newCategory = $_POST['inputExpenseCategory'];
+
+        if (!empty($category) && !empty($newCategory)) {
+            if (ExpenseModel::updateExpenseCategoryAssignedToUser($category, $newCategory)) {
+                FLASH::addMessage('Wybrana kategoria wydatku została zmieniona.');
+            } else {
+                FLASH::addMessage('Wybrana kategoria wydatku nie mogła zostać zmieniona.', FLASH::WARNING);
+            }
+        }
+        $this->redirect('/settings/index');
+    }
+
 }
