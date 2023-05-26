@@ -320,6 +320,26 @@
                     }
                 }
             })
+
+            $('#editIncomeCategoryForm').validate({
+                errorPlacement: function(error, element) {
+                    if (element.attr("name") == "inputIncomeCategory") {
+                        error.insertAfter(".editIncomeCategoryErr");
+                        error.css('color', 'red');
+                    }
+                },
+                rules: {
+                    inputIncomeCategory: {
+                        required: true,
+                        remote: '/validator/income-category-exist'
+                    }
+                },
+                messages: {
+                    inputIncomeCategory: {
+                        remote: 'Kategoria przychodu już istnieje.'
+                    }
+                }
+            })
         });
 
         $.validator.methods.number = function(value, element, param) {

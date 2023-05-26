@@ -270,4 +270,21 @@ class IncomeModel extends \Core\Model {
         return $stmt->execute();
     }
 
+    public static function updateIncomeCategoryAssignedToUser($category, $newCategory) {
+        if (static::findCategoryAssignedToUser($category)) {
+            $sql = 'UPDATE incomes_category_assigned_to_users
+                    SET name = :new_category
+                    WHERE name = :category AND user_id = :user_id';
+
+            $db = static::getDB();
+            $stmt = $db->prepare($sql);
+            $stmt->bindValue(':new_category', $newCategory, PDO::PARAM_STR);
+            $stmt->bindValue(':category', $category, PDO::PARAM_STR);
+            $stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+
+            return $stmt->execute();
+        }
+        return false;
+    }
+
 }

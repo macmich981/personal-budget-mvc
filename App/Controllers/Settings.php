@@ -99,4 +99,18 @@ class Settings extends Authenticated {
         }
         $this->redirect('/settings/index');
     }
+
+    public function editIncomeCategoryAction() {
+        $category = $_POST['editIncomeCategory'];
+        $newCategory = $_POST['inputIncomeCategory'];
+
+        if (!empty($category) && !empty($newCategory)) {
+            if (IncomeModel::updateIncomeCategoryAssignedToUser($category, $newCategory)) {
+                FLASH::addMessage('Wybrana kategoria przychodu została zmieniona.');
+            } else {
+                FLASH::addMessage('Wybrana kategoria przychodu nie mogła zostać zmieniona.', FLASH::WARNING);
+            }
+        }
+        $this->redirect('/settings/index');
+    }
 }
