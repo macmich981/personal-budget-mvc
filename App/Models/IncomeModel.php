@@ -289,10 +289,12 @@ class IncomeModel extends \Core\Model {
 
     public static function deleteIncomeCategoryAssignedToUser($category, $option) {
         $categoryAssignedToUser = static::findCategoryAssignedToUser($category);
-        $defaultCategoryId = static::findCategoryAssignedToUser("Another")['id'];
+        $defaultCategory = static::findCategoryAssignedToUser("Inne");
 
-        if (!$defaultCategoryId) {
-            $defaultCategoryId = static::saveCategoryAssignedToUser("Another");
+        if (!$defaultCategory) {
+            $defaultCategoryId = static::saveCategoryAssignedToUser("Inne");
+        } else {
+            $defaultCategoryId = $defaultCategory['id'];
         }
         $db = static::getDB();
 

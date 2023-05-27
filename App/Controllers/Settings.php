@@ -157,4 +157,18 @@ class Settings extends Authenticated {
         $this->redirect('/settings/index');
     }
 
+    public function removeExpenseCategoryAction() {
+        $category = $_POST['removeExpenseCategory'];
+        $option = $_POST['removeExpenseCategoryOptions'];
+
+        if (!empty($category)) {
+            if (ExpenseModel::deleteExpenseCategoryAssignedToUser($category, $option)) {
+                FLASH::addMessage('Wybrana kategoria wydatku została usunięta.');
+            } else {
+                FLASH::addMessage('Wybrana kategoria wydatku nie mogła zostać usunięta.', FLASH::WARNING);
+            }
+        }
+        $this->redirect('/settings/index');
+    }
+
 }

@@ -373,10 +373,12 @@ class ExpenseModel extends \Core\Model {
 
     public static function deletePaymentAssignedToUser($method, $option) {
         $methodAssignedToUser = static::findPaymentMethodAssignedToUser($method);
-        $defaultPaymentMethodId = static::findPaymentMethodAssignedToUser("Cash")['id'];
+        $defaultPaymentMethod = static::findPaymentMethodAssignedToUser("Gotówka");
 
-        if (!$defaultPaymentMethodId) {
-            $defaultPaymentMethodId = static::savePaymentMethodAssignedToUser("Cash");
+        if (!$defaultPaymentMethod) {
+            $defaultPaymentMethodId = static::savePaymentMethodAssignedToUser("Gotówka");
+        } else {
+            $defaultPaymentMethodId = $defaultPaymentMethod['id'];
         }
         $db = static::getDB();
 
@@ -439,4 +441,42 @@ class ExpenseModel extends \Core\Model {
         }
         return false;
     }
+
+    public static function deleteExpenseCategoryAssignedToUser($category, $option) {
+        $categoryAssignedToUser = static::findCategoryAssignedToUser($category);
+        $defaultCategory = static::findCategoryAssignedToUser("Inne");
+
+        if (!$defaultCategory) {
+            $defaultCategoryId = static::saveCategoryAssignedToUser("Inne");
+        } else {
+            $defaultCategoryId = $defaultCategory['id'];
+        }
+        $db = static::getDB();
+
+        if ($categoryAssignedToUser) {
+            if ($option == "1") {
+                $sql = 'UPDATE expenses
+                        SET expense_category_assigned_to_user_id = :deafult_id
+                        WHERE expense_category_assigned_to_user_id = :category_id AND user_id = :user_id;
+                        DELETE FROM expenses_category_assigned_to_users
+                        WHERE id = :category_id;';
+
+                $stmt = $db->prepare($sql);
+                $stmt->bindValue(':deafult_id', $defaultCategoryId, PDO::PARAM_INT);
+            } else if ($option == "2") {
+                $sql = 'DELETE FROM expenses
+                        WHERE user_id = :user_id AND expense_category_assigned_to_user_id = :category_id;
+                        DELETE FROM expenses_category_assigned_to_users
+                        WHERE id = :category_id;';
+
+                $stmt = $db->prepare($sql);
+            }
+            $stmt->bindValue(':category_id', $categoryAssignedToUser['id'], PDO::PARAM_INT);
+            $stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+
+            return $stmt->execute();
+        }
+        return false;
+    }
+
 }
