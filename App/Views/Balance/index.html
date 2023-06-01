@@ -276,7 +276,9 @@
                                 <p class="card-text">Suma: {{ totalIncomesSum|number_format(2, '.', ' ') }}</p>
                                 <div id="for-income-pie-chart" data-incomes="{{ incomes|json_encode }}"></div>
                                 <hr>
-                                <canvas id="incomesChart" class="m-auto" style="width:90%;max-width:350px"></canvas>
+                                <div class="chart-container m-auto" style="position: relative;">
+                                    <canvas id="incomesChart"></canvas>
+                                </div>
                             </div>
                         </div>
 
@@ -294,7 +296,9 @@
                                 <p class="card-text">Suma: {{ totalExpensesSum|number_format(2, '.', ' ') }}</p>
                                 <div id="for-expense-pie-chart" data-expenses="{{ expenses|json_encode }}"></div>
                                 <hr>
-                                <canvas id="expensesChart" class="m-auto" style="width:90%;max-width:350px"></canvas>
+                                <div class="chart-container m-auto" style="position: relative;">
+                                    <canvas id="expensesChart"></canvas>
+                                </div>
                             </div>
                         </div>
 
@@ -431,6 +435,10 @@
                 hoverOffset: 4
             }]
         },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
     });
 
     //pie chart for incomes
@@ -480,5 +488,9 @@
                 hoverOffset: 4
             }]
         },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
     });
 {% endblock %}
