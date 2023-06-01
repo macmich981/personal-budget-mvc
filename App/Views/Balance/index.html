@@ -301,7 +301,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <h3 class="card-title">Bilans</h3><hr>
-                                <p class="card-text">{{ totalIncomesSum - totalExpensesSum }}</p>
+                                <p class="card-text">{{ (totalIncomesSum - totalExpensesSum)|number_format(2, '.', ' ') }}</p>
                                 <hr>
                                 {% if totalIncomesSum - totalExpensesSum >= 0 %}
                                     <p class="card-text" style="color: darkgreen;">Gratulujemy poprawnego zarządzania budżetem!</p>
