@@ -249,8 +249,8 @@ class ExpenseModel extends \Core\Model {
         switch ($period) {
 
             case 'previousMonth': {
-                $end_date = date_create_from_format('Y-m-d', date('Y-m-t', strtotime('last day of last month')));
-                $start_date = date_create_from_format('Y-m-d', date('Y-m-01', strtotime('first day of last month')));
+                $end_date = date_create_from_format('Y-m-d', date('Y-m-d', strtotime('last day of last month')));
+                $start_date = date_create_from_format('Y-m-d', date('Y-m-d', strtotime('first day of last month')));
                 break;
             }
 

@@ -274,6 +274,9 @@
                                     {% set totalIncomesSum = totalIncomesSum + income.amount %}
                                 {% endfor %}
                                 <p class="card-text">Suma: {{ totalIncomesSum|number_format(2, '.', ' ') }}</p>
+                                <div id="for-income-pie-chart" data-incomes="{{ incomes|json_encode }}"></div>
+                                <hr>
+                                <canvas id="incomesChart" class="m-auto" style="width:90%;max-width:350px"></canvas>
                             </div>
                         </div>
 
@@ -289,9 +292,9 @@
                                     {% set totalExpensesSum = totalExpensesSum + expense.amount %}
                                 {% endfor %}
                                 <p class="card-text">Suma: {{ totalExpensesSum|number_format(2, '.', ' ') }}</p>
-                                <div id="for-pie-chart" data-expenses="{{ expenses|json_encode }}"></div>
+                                <div id="for-expense-pie-chart" data-expenses="{{ expenses|json_encode }}"></div>
                                 <hr>
-                                <canvas id="expensesChart" class="m-auto" style="width:100%;max-width:300px"></canvas>
+                                <canvas id="expensesChart" class="m-auto" style="width:90%;max-width:350px"></canvas>
                             </div>
                         </div>
 
@@ -383,7 +386,7 @@
 {% block expense_pie %}
 //pie chart for expenses
 
-    var expenses = $('#for-pie-chart').data('expenses');
+    var expenses = $('#for-expense-pie-chart').data('expenses');
 
     function expenseLabels() {
         const labels = [];
@@ -405,9 +408,9 @@
         return amounts;
     }
 
-    const ctx = document.getElementById('expensesChart');
+    const ctxExpense = document.getElementById('expensesChart');
 
-    new Chart(ctx, {
+    new Chart(ctxExpense, {
         type: 'pie',
         data: {
             labels: expenseLabels(),
@@ -417,13 +420,62 @@
                     'rgb(255, 99, 132)',
                     'rgb(54, 162, 235)',
                     'rgb(255, 205, 86)',
-                    'rgb(0,128,0)',
-                    'rgb(210,105,30)',
-                    'rgb(139,0,139)',
-                    'rgb(65,105,225)',
-                    'rgb(255,127,80)',
-                    'rgb(0,128,128)',
-                    'rgb(255,0,255)'
+                    'rgb(0, 128, 0)',
+                    'rgb(210, 105, 30)',
+                    'rgb(139, 0, 139)',
+                    'rgb(65, 105, 225)',
+                    'rgb(255, 127, 80)',
+                    'rgb(0, 128, 128)',
+                    'rgb(255, 0, 255)'
+                ],
+                hoverOffset: 4
+            }]
+        },
+    });
+
+    //pie chart for incomes
+
+    var incomes = $('#for-income-pie-chart').data('incomes');
+
+    function incomeLabels() {
+        const labels = [];
+
+        for (let i = 0; i < incomes.length; i++) {
+            labels.push(incomes[i].name);
+        }
+
+        return labels;
+    }
+
+    function incomeAmounts() {
+        const amounts = [];
+
+        for (let i = 0; i < incomes.length; i++) {
+            amounts.push(incomes[i].amount);
+        }
+
+        return amounts;
+    }
+
+    const ctxIncome = document.getElementById('incomesChart');
+
+    new Chart(ctxIncome, {
+        type: 'pie',
+        data: {
+            labels: incomeLabels(),
+            datasets: [{
+                data: incomeAmounts(),
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 205, 86)',
+                    'rgb(0, 128, 0)',
+                    'rgb(210, 105, 30)',
+                    'rgb(139, 0, 139)',
+                    'rgb(65, 105, 225)',
+                    'rgb(255, 127, 80)',
+                    'rgb(0, 128, 128)',
+                    'rgb(255, 0, 255)'
                 ],
                 hoverOffset: 4
             }]
