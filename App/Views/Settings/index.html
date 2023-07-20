@@ -325,6 +325,36 @@
 
                             <hr>
 
+                            <form method="post" action="/settings/set-limit" id="limitForm">
+
+                                <h6>Ustaw limit dla kategorii wydatku</h6>
+
+                                <div class="limitCategoryErr"></div>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </span>
+                                    <select class="form-select" name="inputExpenseCategory" required>
+                                        <option disabled selected>Wybierz kategorię...</option>
+                                        {% for category in allExpenseCategories %}
+                                            <option value="{{ category.name }}">{{ category.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div class="limitErr"></div>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </span>
+                                    <input type="number" name="limitAmount" id="inputLimit" step="0.01" class="form-control" min="0.01" max="1000000" placeholder="Wpisz kwotę limitu..." required>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Ustaw limit</button>
+                            </form>
+
+                            <hr>
+
                             <form method="post" action="/settings/remove-expense-category" id="removeExpenseCategoryForm">
 
                                 <h6>Usuń kategorię</h6>
@@ -383,4 +413,10 @@
         </section>
     </main>
                     
+{% endblock %}
+
+{% block settings %}
+
+    <script src="/js/settings.js"></script>
+
 {% endblock %}

@@ -14,7 +14,8 @@ class Settings extends Authenticated {
         View::renderTemplate('Settings/index.html', [
             'paymentMethods' => ExpenseModel::getPaymentMethodsCreatedByUser(),
             'incomeCategories' => IncomeModel::getIncomeCategoriesCreatedByUser(),
-            'expenseCategories' => ExpenseModel::getExpenseCategoriesCreatedByUser()
+            'expenseCategories' => ExpenseModel::getExpenseCategoriesCreatedByUser(),
+            'allExpenseCategories' => ExpenseModel::getExpenseCategories()
         ]);
     }
 
@@ -155,6 +156,26 @@ class Settings extends Authenticated {
             }
         }
         $this->redirect('/settings/index');
+    }
+
+    public function setLimitAction() {
+        $category = $_POST['inputExpenseCategory'];
+        $limit = $_POST['limitAmount'];
+
+        if (!empty($category) && !empty($limit)) {
+            if (ExpenseModel::setLimitForExpenseCategory($category, $limit)) {
+                FLASH::addMessage('Limit został ustawiony.');
+            } else {
+                FLASH::addMessage('Wybrana kategoria nie istnieje.');
+            }
+        }
+        $this->redirect('/settings/index');
+    }
+
+    public function getLimitAction() {
+        $category = $this->route_params['category'];
+
+        echo json_encode(ExpenseModel::getLimitForExpenseCategory($category), JSON_UNESCAPED_UNICODE);
     }
 
     public function removeExpenseCategoryAction() {

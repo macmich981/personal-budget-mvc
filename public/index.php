@@ -25,6 +25,7 @@ session_start();
  * Routing
  */
 $router = new Core\Router();
+$router->add('api/limit/{category:[\wżźćńółęąśŻŹĆĄŚĘÓŃ ]+}', ['controller' => 'Settings', 'action' => 'get-limit']);
 
 // Add the routes
 $router->add('', ['controller' => 'Home', 'action' => 'index']);

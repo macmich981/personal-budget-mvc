@@ -201,6 +201,18 @@ class ExpenseModel extends \Core\Model {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public static function findDefaultCategory($category) {
+        $sql = 'SELECT name FROM expenses_category_default
+                WHERE name = :category';
+        
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':category', $category, PDO::PARAM_STR);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     public static function findCategoryAssignedToUser($category) {
         $sql = 'SELECT id, name FROM expenses_category_assigned_to_users
                 WHERE name = :category AND user_id = :user_id';
@@ -479,4 +491,44 @@ class ExpenseModel extends \Core\Model {
         return false;
     }
 
+    public static function setLimitForExpenseCategory($category, $limit) {
+        $sql = 'UPDATE expenses_category_assigned_to_users
+                SET limits = :limit
+                WHERE name = :category AND user_id = :user_id';
+
+        if (!(static::findCategoryAssignedToUser($category))) {
+            if (static::findDefaultCategory($category)) {
+                static::saveCategoryAssignedToUser($category);
+            } else {
+                return false;
+            }
+        }
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_STR);
+        $stmt->bindValue(':category', $category, PDO::PARAM_STR);
+        $stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+
+    public static function getLimitForExpenseCategory($category) {
+        $sql = 'SELECT limits 
+                FROM expenses_category_assigned_to_users
+                WHERE name = :category AND user_id = :user_id';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':category', $category, PDO::PARAM_STR);
+        $stmt->bindValue(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->execute();
+
+        $result = $stmt->fetch();
+
+        if (!$result || $result == 0) {
+            return 'Limit dla tej kategorii nie został ustawiony';
+        }
+        return $result[0];
+    }
 }
