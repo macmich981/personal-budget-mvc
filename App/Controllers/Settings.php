@@ -172,12 +172,6 @@ class Settings extends Authenticated {
         $this->redirect('/settings/index');
     }
 
-    public function getLimitAction() {
-        $category = $this->route_params['category'];
-
-        echo json_encode(ExpenseModel::getLimitForExpenseCategory($category), JSON_UNESCAPED_UNICODE);
-    }
-
     public function removeExpenseCategoryAction() {
         $category = $_POST['removeExpenseCategory'];
         $option = $_POST['removeExpenseCategoryOptions'];

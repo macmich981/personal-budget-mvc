@@ -8,7 +8,7 @@
         <section id="add-expense">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-4 content-background m-auto rounded-top wrapper">
+                    <div class="col-lg-5 content-background m-auto rounded-top wrapper">
                         <h2 class="pt-3 mb-3">Dodawanie wydatku</h2>
 
                         {% if expense.errors is not empty %}
@@ -102,9 +102,44 @@
 
                         </form>
                     </div>
+
+                    <div class="card col-lg-5 m-auto content-background">
+                        <ul class="list-group list-group-flush">
+                          <li class="list-group-item content-background">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h3 class="card-title">Wysokość limitu</h3>
+                                    <p class="card-text" id="limit-amount">Wymagany wybór kategorii</p>
+                                </div>
+                            </div>
+                          </li>
+                          <li class="list-group-item content-background">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h3 class="card-title">Wartość limitu</h3>
+                                    <p class="card-text" id="limit-value">Wymagany wybór daty i kategorii</p>
+                                </div>
+                            </div>
+                          </li>
+                          <li class="list-group-item content-background">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h3 class="card-title">Bilans limitu</h3>
+                                    <p class="card-text" id="limit-balance">Wymagany wybór daty, kategorii i kwoty</p>
+                                </div>
+                            </div>
+                          </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </section>
     </main>
+
+{% endblock %}
+
+{% block limit %}
+
+    <script src="/js/limit.js"></script>
 
 {% endblock %}

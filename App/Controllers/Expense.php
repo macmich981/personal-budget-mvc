@@ -15,6 +15,7 @@ class Expense extends Authenticated {
             'paymentMethods' => ExpenseModel::getPaymentMethods(),
             'categories' => ExpenseModel::getExpenseCategories()
         ]);
+        ExpenseModel::getExpenseSumsForCategory("Spłata długów", "2023-07-20");
     }
 
     public function createAction() {
@@ -55,4 +56,16 @@ class Expense extends Authenticated {
         }
     }
 
+    public function getLimitAction() {
+        $category = $this->route_params['category'];
+
+        echo json_encode(ExpenseModel::getLimitForExpenseCategory($category), JSON_UNESCAPED_UNICODE);
+    }
+
+    public function getMonthlyExpensesForCategory() {
+        $category = $this->route_params['category'];
+        $date = $this->route_params['date'];
+
+        echo json_encode(ExpenseModel::getExpenseSumsForCategory($category, $date));
+    }
 }

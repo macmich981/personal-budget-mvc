@@ -527,8 +527,31 @@ class ExpenseModel extends \Core\Model {
         $result = $stmt->fetch();
 
         if (!$result || $result == 0) {
-            return 'Limit dla tej kategorii nie został ustawiony';
+            return 0;
         }
-        return $result[0];
+        return doubleval($result[0]);
+    }
+
+    public static function getExpenseSumsForCategory($category, $customDate) {
+        $firstDay = date("Y-m-01", strtotime($customDate));
+        $lastDay = date("Y-m-t", strtotime($customDate));
+        
+        if (static::findCategoryAssignedToUser($category)) {
+            $categoryId = static::findCategoryAssignedToUser($category)['id'];
+
+            $sql = 'SELECT SUM(expenses.amount)
+                    FROM expenses
+                    WHERE expense_category_assigned_to_user_id = :category_id AND expenses.date_of_expense BETWEEN :start_date AND :end_date'; 
+
+            $db = static::getDB();
+            $stmt = $db->prepare($sql);
+            $stmt->bindValue(':category_id', $categoryId, PDO::PARAM_INT);
+            $stmt->bindValue(':start_date', $firstDay, PDO::PARAM_STR);
+            $stmt->bindValue(':end_date', $lastDay, PDO::PARAM_STR);
+            $stmt->execute();
+
+            return doubleval($stmt->fetch()[0]);
+        }
+        return 0;
     }
 }

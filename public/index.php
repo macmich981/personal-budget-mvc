@@ -25,7 +25,8 @@ session_start();
  * Routing
  */
 $router = new Core\Router();
-$router->add('api/limit/{category:[\wżźćńółęąśŻŹĆĄŚĘÓŃ ]+}', ['controller' => 'Settings', 'action' => 'get-limit']);
+$router->add('api/limit/{category:[\wżźćńółęąśŻŹĆĄŚĘÓŃ ]+}', ['controller' => 'Expense', 'action' => 'get-limit']);
+$router->add('api/limit/{category:[\wżźćńółęąśŻŹĆĄŚĘÓŃ ]+}/{date:[\d]+-[\d]+-[\d]+}', ['controller' => 'Expense', 'action' => 'get-monthly-expenses-for-category']);
 
 // Add the routes
 $router->add('', ['controller' => 'Home', 'action' => 'index']);
