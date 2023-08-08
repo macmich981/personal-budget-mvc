@@ -37,21 +37,27 @@ category.addEventListener('change', async () => {
 
     if (limit != 0) {
         document.querySelector('#limit-amount').textContent = `Ustawiono limit w wysokości ${limit} zł miesięcznie`;
+        document.querySelector('#limit-balance').textContent = (limit - monthlyExpensesSum).toFixed(2);
     } else {
         document.querySelector('#limit-amount').textContent = 'Nie ustawiono limitu wydatków dla tej kategorii';
+        document.querySelector('#limit-balance').textContent = 'Nie ustawiono limitu wydatków dla tej kategorii';
     }
-    document.querySelector('#limit-value').textContent = `Wydałeś ${monthlyExpensesSum} zł w wybranym miesiącu dla tej kategprii`;
-    document.querySelector('#limit-balance').textContent = 'Wymagany wybór daty, kategorii i kwoty';
+    document.querySelector('#limit-value').textContent = `Wydałeś ${monthlyExpensesSum} zł w wybranym miesiącu dla tej kategorii`;
+    
 })
 
-$(document).ready(function () {
-    $('#date').datepicker().on('changeDate', async () => {
-        let limit = await getLimitForCategory(category.value);
+// how to tranform code below to pure javascript?
 
-        if (limit != 0) {
-            let monthlyExpensesSum = await getMonthlyExpensesForCategory(category.value, date.value);
-            document.querySelector('#limit-value').textContent = `Wydałeś ${monthlyExpensesSum} zł w wybranym miesiącu dla tej kategprii`;
-            document.querySelector('#limit-balance').textContent = (limit - monthlyExpensesSum).toFixed(2);
-        }
-    });
+
+$('#date').datepicker().on('changeDate', async () => {
+    let limit = await getLimitForCategory(category.value);
+    let monthlyExpensesSum = await getMonthlyExpensesForCategory(category.value, date.value);
+
+    if (category.value != 'Wybierz rodzaj wydatku...') {
+        document.querySelector('#limit-value').textContent = `Wydałeś ${monthlyExpensesSum} zł w wybranym miesiącu dla tej kategorii`;
+    }
+    
+    if (!isNaN(limit) && limit != 0) {
+        document.querySelector('#limit-balance').textContent = (limit - monthlyExpensesSum).toFixed(2);
+    }
 });
