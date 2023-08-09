@@ -86,3 +86,15 @@ body {
 .no-gutter-x {
     --bs-gutter-x: 0;
 }
+
+.green-text {
+    color: green;
+}
+
+.red-text {
+    color: red;
+}
+
+.black-text {
+    color: black;
+}
