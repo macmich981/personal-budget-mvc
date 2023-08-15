@@ -44,7 +44,7 @@ category.addEventListener('change', async () => {
 
     if (!isNaN(limit) && limit != 0) {
         let balance = (limit - monthlyExpensesSum - amount.value).toFixed(2);
-        limitAmount.textContent = `Ustawiono limit w wysokości ${limit} zł miesięcznie`;
+        limitAmount.textContent = `Ustawiono limit w wysokości ${limit.toFixed(2)} zł miesięcznie`;
         changeBalanceColor(balance, limitBalance);
         limitBalance.textContent = `${balance} zł`;
     } else {
@@ -52,8 +52,7 @@ category.addEventListener('change', async () => {
         changeBalanceColor(0, limitBalance, true);
         limitBalance.textContent = 'Nie ustawiono limitu wydatków dla tej kategorii';
     }
-    limitValue.textContent = `Wydałeś ${monthlyExpensesSum} zł w wybranym miesiącu dla tej kategorii`;
-    
+    limitValue.textContent = `Wydałeś ${monthlyExpensesSum.toFixed(2)} zł w wybranym miesiącu dla tej kategorii`;
 })
 
 // how to tranform code below to pure javascript?
@@ -63,7 +62,7 @@ $('#date').datepicker().on('changeDate', async () => {
     let monthlyExpensesSum = await getMonthlyExpensesForCategory(category.value, date.value);
 
     if (category.value != 'Wybierz rodzaj wydatku...') {
-        limitValue.textContent = `Wydałeś ${monthlyExpensesSum} zł w wybranym miesiącu dla tej kategorii`;
+        limitValue.textContent = `Wydałeś ${monthlyExpensesSum.toFixed(2)} zł w wybranym miesiącu dla tej kategorii`;
     }
     
     if (!isNaN(limit) && limit != 0) {
